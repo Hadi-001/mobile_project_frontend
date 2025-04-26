@@ -1,5 +1,6 @@
 package com.example.mobile_project_frontend;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -15,13 +16,13 @@ import java.util.List;
 public class PropertyVerticalAdapter extends RecyclerView.Adapter<PropertyVerticalAdapter.PropertyViewHolder> {
     private List<PropertyItem> items;
     private Context context;
+    private static final int REQUEST_CODE_PROPERTY_DETAIL = 2006;
 
     public PropertyVerticalAdapter(List<PropertyItem> items, Context context) {
         this.items = items;
         this.context = context;
     }
 
-    // ViewHolder as an inner class
     public class PropertyViewHolder extends RecyclerView.ViewHolder {
         public int propertyId;
         private ImageButton favoriteButton;
@@ -30,19 +31,24 @@ public class PropertyVerticalAdapter extends RecyclerView.Adapter<PropertyVertic
             super(itemView);
             favoriteButton = itemView.findViewById(R.id.favoriteButton);
 
-            // Set click listener for the entire card
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (propertyId >= 1) {
                         Intent intent = new Intent(context, PropertyDetailActivity.class);
                         intent.putExtra("PROPERTY_ID", propertyId);
-                        context.startActivity(intent);
+
+                        // Use startActivityForResult if the context is an Activity
+                        if (context instanceof Activity) {
+                            ((Activity) context).startActivityForResult(intent, REQUEST_CODE_PROPERTY_DETAIL);
+                        } else {
+                            // Fallback to regular startActivity if not
+                            context.startActivity(intent);
+                        }
                     }
                 }
             });
 
-            // Set click listener for favorite button
             favoriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -56,10 +62,10 @@ public class PropertyVerticalAdapter extends RecyclerView.Adapter<PropertyVertic
                     }
 
                     // Update in database if needed
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        items.get(position).setFavorite(isSelected);
-                    }
+//                    int position = getAdapterPosition();
+//                    if (position != RecyclerView.NO_POSITION) {
+//                        items.get(position).setFavorite(isSelected);
+//                    }
                 }
             });
         }
@@ -74,7 +80,6 @@ public class PropertyVerticalAdapter extends RecyclerView.Adapter<PropertyVertic
             // Bind other views
             TextView titleTextView = itemView.findViewById(R.id.titleTextView);
             titleTextView.setText(item.getType());
-
         }
     }
 
