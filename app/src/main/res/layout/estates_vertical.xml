@@ -38,7 +38,6 @@
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="6dp"
                 android:text="Type"
-                android:textColor="#6EFBD2"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
         </com.google.android.material.card.MaterialCardView>
@@ -66,7 +65,6 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="6dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_heart_filled" />
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout

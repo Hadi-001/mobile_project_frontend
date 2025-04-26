@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-<!--    tools:context=".HomeActivity"-->
+    tools:context=".HomeActivity"
 
 
 
@@ -29,6 +29,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:padding="3dp"
+        android:paddingStart="5dp"
+        android:text="Categories"
+        android:textColor="#050000"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,7 +67,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="39dp"
                 android:text="Appartment"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -74,7 +88,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="39dp"
                 android:text="Villa"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -94,7 +110,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="39dp"
                 android:text="Penthouse"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -114,6 +132,8 @@
                 android:layout_height="33dp"
                 android:text="TextView"
                 android:textAlignment="center"
+                android:textColor="#000000"
+                android:textStyle="bold"
                 tools:text="House" />
 
         </LinearLayout>
@@ -133,16 +153,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="39dp"
                 android:text="Mansion"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:padding="3dp"
+        android:paddingStart="5dp"
+        android:text="Trending"
+        android:textColor="#050000"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTrending"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="163dp"
+        android:padding="8dp" />
+
+    <TextView
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:padding="3dp"
+        android:paddingStart="5dp"
+        android:text="Nearest"
+        android:textColor="#050000"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewNearest"
+        android:layout_width="match_parent"
+        android:layout_height="162dp"
+        android:padding="8dp" />
 
     <View
         android:layout_width="match_parent"
@@ -159,7 +210,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu" >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </LinearLayout>
 
