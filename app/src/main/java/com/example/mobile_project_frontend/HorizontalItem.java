@@ -1,6 +1,7 @@
 package com.example.mobile_project_frontend;
 
 public class HorizontalItem {
+    private int itemId;
     private int imageResId;
     private String title;
     private String propertyTitle;
@@ -9,7 +10,8 @@ public class HorizontalItem {
     private int bathroomCount;
     private String price;
 
-    public HorizontalItem(int imageResId, String title, String propertyTitle, String location, int bedroomCount, int bathroomCount, String price) {
+    public HorizontalItem(int id,int imageResId, String title, String propertyTitle, String location, int bedroomCount, int bathroomCount, String price) {
+        this.itemId = id;
         this.imageResId = imageResId;
         this.title = title;
         this.propertyTitle = propertyTitle;
@@ -18,6 +20,8 @@ public class HorizontalItem {
         this.bathroomCount = bathroomCount;
         this.price = price;
     }
+
+    public int getItemId(){return itemId;}
 
     public int getImageResId() {
         return imageResId;
