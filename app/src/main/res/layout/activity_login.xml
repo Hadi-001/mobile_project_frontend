@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
@@ -50,30 +51,33 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="154dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="24dp"
         android:backgroundTint="#4CAF50"
         android:text="Login"
         android:textColor="#FFF"
         app:cornerRadius="25sp"
-        app:layout_constraintEnd_toStartOf="@id/signupButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/password" />
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="143dp"
+        android:layout_height="17dp"
+        android:text="Don't have an account? "
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="660dp" />
+
     <Button
         android:id="@+id/signupButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="#4CAF50"
-        android:text="Sign Up"
-        android:textColor="#FFF"
-        app:cornerRadius="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/loginButton"
-        app:layout_constraintTop_toBottomOf="@id/password" />
+        android:layout_width="84dp"
+        android:layout_height="33dp"
+        android:backgroundTint="@color/teal_200"
+        android:text="@string/signup"
+        android:textSize="10sp"
+        tools:layout_editor_absoluteX="218dp"
+        tools:layout_editor_absoluteY="651dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
