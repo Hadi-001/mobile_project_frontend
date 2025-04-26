@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="vertical">
+<!--    tools:context=".HomeActivity"-->
 
-
-    tools:context=".ui.home.HomeFragment">
 
 
     <LinearLayout
@@ -38,44 +37,8 @@
         android:padding="3dp">
 
 
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/house_category"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:src="@drawable/house" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                tools:text="House" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/villa_category"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:src="@drawable/villa" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="39dp"
-                android:text="Villa"
-                android:textAlignment="center" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="80dp"
@@ -102,6 +65,26 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/villa_category"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:src="@drawable/villa" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:text="Villa"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
                 android:id="@+id/penthouse_category"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
@@ -112,6 +95,26 @@
                 android:layout_height="39dp"
                 android:text="Penthouse"
                 android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/house_category"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:src="@drawable/house" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:text="TextView"
+                android:textAlignment="center"
+                tools:text="House" />
 
         </LinearLayout>
 
@@ -136,10 +139,16 @@
 
     </LinearLayout>
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="151dp"
         android:layout_weight="1" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

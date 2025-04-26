@@ -17,14 +17,6 @@
             android:exported="false"
             android:label="@string/title_activity_home" />
         <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Mobile_project_frontend.NoActionBar" />
-        <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.Mobile_project_frontend.NoActionBar">
