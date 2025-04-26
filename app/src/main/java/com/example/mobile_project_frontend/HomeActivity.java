@@ -67,6 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         List<HorizontalItem> itemList = new ArrayList<>();
 
         itemList.add(new HorizontalItem(
+                1,
                 R.drawable.appartment_pic,
                 "Apartment",
                 "Royal Apartment",
@@ -77,6 +78,7 @@ public class HomeActivity extends AppCompatActivity {
         ));
 
         itemList.add(new HorizontalItem(
+                2,
                 R.drawable.appartment_pic,
                 "Villa",
                 "Luxury Villa",
@@ -87,6 +89,7 @@ public class HomeActivity extends AppCompatActivity {
         ));
 
         itemList.add(new HorizontalItem(
+                3,
                 R.drawable.appartment_pic,
                 "Condo",
                 "Sunset Condo",
@@ -97,6 +100,7 @@ public class HomeActivity extends AppCompatActivity {
         ));
 
         itemList.add(new HorizontalItem(
+                4,
                 R.drawable.appartment_pic,
                 "Penthouse",
                 "Skyline Penthouse",
@@ -113,6 +117,7 @@ public class HomeActivity extends AppCompatActivity {
         List<HorizontalItem> itemList = new ArrayList<>();
 
         itemList.add(new HorizontalItem(
+                5,
                 R.drawable.appartment_pic,
                 "Nearest Apartment",
                 "Downtown Studio",
@@ -123,6 +128,7 @@ public class HomeActivity extends AppCompatActivity {
         ));
 
         itemList.add(new HorizontalItem(
+                6,
                 R.drawable.appartment_pic,
                 "Nearest Villa",
                 "Cozy Villa",
@@ -133,6 +139,7 @@ public class HomeActivity extends AppCompatActivity {
         ));
 
         itemList.add(new HorizontalItem(
+                7,
                 R.drawable.appartment_pic,
                 "Nearest Condo",
                 "Beachside Condo",

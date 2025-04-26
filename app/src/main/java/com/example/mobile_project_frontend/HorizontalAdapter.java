@@ -33,12 +33,30 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HorizontalItem item = itemList.get(position);
         holder.imageView.setImageResource(item.getImageResId());
+        holder.favoriteButton.setTag(item.getImageResId());
         holder.titleTextView.setText(item.getTitle());
         holder.propertyTitleTextView.setText(item.getPropertyTitle());
         holder.locationTextView.setText(item.getLocation());
         holder.bedroomCountTextView.setText(String.valueOf(item.getBedroomCount()));
         holder.bathroomCountTextView.setText(String.valueOf(item.getBathroomCount()));
         holder.priceTextView.setText(item.getPrice());
+
+
+        holder.favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageButton button = (ImageButton) v;
+                Object tag = button.getTag();
+                if (tag != null && (int) tag == R.drawable.ic_heart_filled) {
+                    button.setImageResource(R.drawable.ic_heart_empty);
+                    button.setTag(R.drawable.ic_heart_empty);
+                } else {
+                    button.setImageResource(R.drawable.ic_heart_filled);
+                    button.setTag(R.drawable.ic_heart_filled);
+                }
+            }
+        });
+
     }
 
     @Override
