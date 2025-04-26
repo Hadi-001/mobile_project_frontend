@@ -24,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
             return insets;
         });
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             finish();
         }, 5000);
     }
