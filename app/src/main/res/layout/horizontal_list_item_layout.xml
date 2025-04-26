@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemType"
-    android:layout_width="284dp"
-    android:layout_height="244dp"
+    android:layout_width="255dp"
+    android:layout_height="190dp"
     android:layout_margin="8dp"
     android:background="@drawable/item_white_bg"
     android:elevation="3dp">
@@ -13,15 +13,15 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView2"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="98dp"
+        android:layout_marginStart="7dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="7dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.circleImageView"
         app:srcCompat="@drawable/appartment_pic" />
 
     <com.google.android.material.card.MaterialCardView
@@ -30,12 +30,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="11dp"
         android:layout_marginTop="4dp"
         app:cardBackgroundColor="#E6FFFFFF"
         app:cardCornerRadius="10dp"
         app:cardElevation="2dp"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2">
 
         <TextView
@@ -55,12 +55,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_margin="12dp"
         app:cardBackgroundColor="#E6FFFFFF"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/imageView2">
 
         <ImageButton
             android:id="@+id/favoriteButton"
@@ -75,18 +74,22 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/itemImage"
-        android:layout_marginTop="144dp"
+        android:layout_height="0dp"
+
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="2dp"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/imageView2">
 
         <TextView
             android:id="@+id/propertyTitleTextView"
-            android:layout_width="match_parent"
+            android:layout_width="224dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:text="Royal Apartment"
@@ -94,7 +97,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="224dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
@@ -123,7 +126,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal">
@@ -172,6 +175,7 @@
                         android:textColor="#757575"
                         android:textSize="14sp" />
                 </LinearLayout>
+
             </LinearLayout>
 
             <TextView
@@ -182,6 +186,7 @@
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
