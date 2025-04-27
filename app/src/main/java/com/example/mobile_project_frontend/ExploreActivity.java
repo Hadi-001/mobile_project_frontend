@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,9 +15,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -143,173 +147,115 @@ public class ExploreActivity extends AppCompatActivity {
     private void setupBottomNavigation() {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_explore);
+        User user = new User(this);
         navView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.navigation_home) {
                 startActivity(new Intent(this, HomeActivity.class));
-                finish();
+                return true;
+            }else if(id == R.id.navigation_fav){
+                if(user.getUserId() == -1)startActivity(new Intent(this,MyFavoriteActivity.class));
                 return true;
             }
             return id == R.id.navigation_explore;
         });
     }
 
-    /** Fetch every estate from backend */
     private void fetchAllEstates() {
         String url = "http://10.0.2.2/mobile_project_backend/get_all_estates.php";
-        RequestQueue q = Volley.newRequestQueue(this);
-        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url, null,
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
-                    parseAndDisplay(response);
+                    allProperties.clear(); // Clear any previous data
+
+                    try {
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject jsonObject = response.getJSONObject(i);
+
+                            // Create PropertyItem from JSON
+                            PropertyItem propertyItem = new PropertyItem(
+                                    jsonObject.getInt("estate_id"),
+                                    jsonObject.getString("type"),
+                                    jsonObject.getInt("beds"),
+                                    jsonObject.getInt("baths"),
+                                    jsonObject.getDouble("price"),
+                                    jsonObject.getString("city"),
+                                    jsonObject.getString("street"),
+                                    jsonObject.getString("image_link"),
+                                    jsonObject.getInt("views"),
+                                    jsonObject.getDouble("area"),
+                                    jsonObject.getString("description"),
+                                    jsonObject.getString("date_build"),
+                                    jsonObject.getInt("owner_id"),
+                                    jsonObject.getString("post_date"),
+                                    jsonObject.getBoolean("is_favorite")
+                            );
+                            allProperties.add(propertyItem); // Add the property item to the list
+                        }
+                        Log.d("data",allProperties.toString());
+                        // After fetching, display properties in the RecyclerView
+                        PropertyVerticalAdapter adapter = new PropertyVerticalAdapter(allProperties, this);
+                        RecyclerView recyclerView = findViewById(R.id.propertyRecyclerView);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        recyclerView.setAdapter(adapter);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 },
-                error -> error.printStackTrace()
-        );
-        q.add(req);
+                error -> {
+                    error.printStackTrace();
+                    Toast.makeText(this, "Error fetching properties", Toast.LENGTH_SHORT).show();
+                });
+
+        queue.add(jsonArrayRequest);
     }
 
-    /** Parse JSON array and rebuild UI */
-    private void parseAndDisplay(JSONArray arr) {
-        try {
-            allProperties.clear();
-            for (int i = 0; i < arr.length(); i++) {
-                JSONObject o = arr.getJSONObject(i);
-                allProperties.add(new PropertyItem(
-                        o.getInt("estate_id"),
-                        o.getString("type"),
-                        o.getInt("beds"),
-                        o.getInt("baths"),
-                        o.getDouble("price"),
-                        o.getString("city"),
-                        o.getString("street"),
-                        o.getString("image_link"),
-                        o.getInt("views"),
-                        o.getDouble("area"),
-                        o.getString("description"),
-                        o.getString("date_build"),
-                        o.getInt("owner_id"),
-                        o.getString("post_date"),
-                        false
-                ));
-            }
-            rebuildSections();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /** Clear and re-draw all sections & cards */
-    private void rebuildSections() {
-        containerLayout.removeAllViews();
-        sectionHeaders.clear();
-
-        addSection("Apartment",  filterByType("Apartment"));
-        addSection("Villa",      filterByType("Villa"));
-        addSection("Penthouse",  filterByType("Penthouse"));
-        addSection("House",      filterByType("House"));
-        addSection("Mansion",    filterByType("Mansion"));
-    }
-
-    private List<PropertyItem> filterByType(String type) {
-        List<PropertyItem> sub = new ArrayList<>();
-        for (PropertyItem p : allProperties) {
-            if (p.getType().equalsIgnoreCase(type)) sub.add(p);
-        }
-        return sub;
-    }
-
-    private void addSection(String title, List<PropertyItem> items) {
-        if (items.isEmpty()) return;
-
-        TextView header = new TextView(this);
-        header.setText(title);
-        header.setTextSize(22);
-        header.setPadding(8, 32, 8, 8);
-        containerLayout.addView(header);
-        sectionHeaders.add(header);
-
-        for (PropertyItem p : items) {
-            containerLayout.addView(card(p));
-        }
-    }
-
-    private View card(PropertyItem item) {
-        View v = LayoutInflater.from(this)
-                .inflate(R.layout.estates_vertical, containerLayout, false);
-
-        ((ImageView)v.findViewById(R.id.itemImage))
-                .setImageResource(R.drawable.appartment_pic);
-        ((TextView)v.findViewById(R.id.titleTextView))
-                .setText(item.getType());
-        ((TextView)v.findViewById(R.id.propertyTitleTextView))
-                .setText(item.getStreet());
-        ((TextView)v.findViewById(R.id.locationTextView))
-                .setText(item.getCity());
-        ((TextView)v.findViewById(R.id.bedroomCountTextView))
-                .setText(String.valueOf(item.getBeds()));
-        ((TextView)v.findViewById(R.id.bathroomCountTextView))
-                .setText(String.valueOf(item.getBaths()));
-        ((TextView)v.findViewById(R.id.priceTextView))
-                .setText(String.format("$%,.0f", item.getPrice()));
-
-        ImageButton heart = v.findViewById(R.id.favoriteButton);
-        heart.setOnClickListener(b -> {
-            boolean sel = !heart.isSelected();
-            heart.setSelected(sel);
-            heart.setImageResource(
-                    sel ? R.drawable.ic_heart_filled : R.drawable.ic_heart_empty
-            );
-        });
-
-        v.setTag(item);
-        allCards.add(v);
-        return v;
-    }
-
-    /** Apply local filters on the already-fetched list */
     private void applyFilters() {
-        // read spinner values
-        cityFilter = spCity.getSelectedItemPosition()==0
-                ? null
-                : spCity.getSelectedItem().toString();
-        priceBand = spPrice.getSelectedItemPosition();
-        minBeds   = parseMin(spBeds.getSelectedItem().toString());
-        minBaths  = parseMin(spBaths.getSelectedItem().toString());
+        List<PropertyItem> filteredProperties = new ArrayList<>();
 
-        // rebuild with filtering
-        containerLayout.removeAllViews();
-        for (String type : new String[]{"Apartment","Villa","Penthouse","House","Mansion"}) {
-            List<PropertyItem> list = filterByType(type);
-            // apply spinner filters
-            List<PropertyItem> filtered = new ArrayList<>();
-            for (PropertyItem p : list) {
-                if ((selectedTypes.isEmpty() || selectedTypes.contains(p.getType()))
-                        && (cityFilter==null   || p.getCity().startsWith(cityFilter))
-                        && (minBeds  < 0     || p.getBeds() >= minBeds)
-                        && (minBaths < 0     || p.getBaths()>= minBaths)
-                        && pricePass(p.getPrice()))
-                {
-                    filtered.add(p);
-                }
+        // Filter properties based on selected criteria
+        for (PropertyItem property : allProperties) {
+            boolean matches = true;
+
+            // Check city filter
+            if (cityFilter != null && !property.getCity().equals(cityFilter)) {
+                matches = false;
             }
-            addSection(type, filtered);
+
+            // Check bed filter
+            if (minBeds != -1 && property.getBeds() < minBeds) {
+                matches = false;
+            }
+
+            // Check bath filter
+            if (minBaths != -1 && property.getBaths() < minBaths) {
+                matches = false;
+            }
+
+            // Check price filter
+            if (priceBand != -1 && property.getPrice() > priceBand) {
+                matches = false;
+            }
+
+            // Check type filter
+            if (!selectedTypes.isEmpty() && !selectedTypes.contains(property.getType())) {
+                matches = false;
+            }
+
+            // If matches all filters, add to filtered list
+            if (matches) {
+                filteredProperties.add(property);
+            }
         }
-        disableApplyButton();
+
+        // Update the RecyclerView with filtered properties
+        PropertyVerticalAdapter adapter = new PropertyVerticalAdapter(filteredProperties, this);
+        RecyclerView recyclerView = findViewById(R.id.propertyRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
-    private boolean pricePass(double p) {
-        switch (priceBand) {
-            case 0: return true;
-            case 1: return p < 2000;
-            case 2: return p < 5000;
-            case 3: return p < 10000;
-            case 4: return p >= 10000;
-            default: return true;
-        }
-    }
 
-    private int parseMin(String txt) {
-        return txt.startsWith("Any")
-                ? -1
-                : Integer.parseInt(txt.replaceAll("[^0-9]",""));
-    }
 }

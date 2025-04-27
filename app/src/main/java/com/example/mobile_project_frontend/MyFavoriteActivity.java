@@ -1,5 +1,6 @@
 package com.example.mobile_project_frontend;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,11 +33,30 @@ public class MyFavoriteActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
     private User user;
     private TextView emptyView;
+    private BottomNavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_favorite);
+
+        navView = findViewById(R.id.nav_view);
+        navView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.navigation_home) {
+                startActivity(new Intent(this, HomeActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.navigation_explore) {
+                startActivity(new Intent(this, ExploreActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.navigation_fav) {
+                return true;
+            } else if (item.getItemId() == R.id.navigation_profile) {
+                if(user.getUserId() == -1)startActivity(new Intent(this,RestrictActivity.class));
+                startActivity(new Intent(this, ProfileActivity.class));
+                return true;
+            }
+            return false;
+        });
 
         // Initialize views
         favoritesRecyclerView = findViewById(R.id.MyFavoritesRecycleView);
