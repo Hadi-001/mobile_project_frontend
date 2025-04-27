@@ -1,6 +1,8 @@
 package com.example.mobile_project_frontend;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +40,6 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_list_item_layout, parent, false);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HorizontalItem item = itemList.get(position);
@@ -53,6 +54,7 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
                 .load("http://10.0.2.2/" + item.getImageURL())
                 .into(holder.imageView);
 
+
         if (item.isLiked()) {
             holder.favoriteButton.setImageResource(R.drawable.ic_heart_filled);
             holder.favoriteButton.setTag(R.drawable.ic_heart_filled);
@@ -61,35 +63,48 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
             holder.favoriteButton.setTag(R.drawable.ic_heart_empty);
         }
 
+        // like button click
         User user = new User(context);
 
-        if(user.getUserId() > 0)holder.favoriteButton.setOnClickListener(new View.OnClickListener() {
+        if (user.getUserId() > 0) {
+            holder.favoriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ImageButton button = (ImageButton) v;
+                    Object tag = button.getTag();
+                    button.setEnabled(false);
+                    String action;
+
+                    if (tag != null && (int) tag == R.drawable.ic_heart_filled) {
+                        button.setImageResource(R.drawable.ic_heart_empty);
+                        button.setTag(R.drawable.ic_heart_empty);
+                        item.setLiked(false);
+                        action = "remove";
+                    } else {
+                        button.setImageResource(R.drawable.ic_heart_filled);
+                        button.setTag(R.drawable.ic_heart_filled);
+                        item.setLiked(true);
+                        action = "add";
+                    }
+
+                    updateFavoriteInDatabase(item.getItemId(), action, button);
+                }
+            });
+        }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageButton button = (ImageButton) v;
-                Object tag = button.getTag();
-                button.setEnabled(false);
-                String action;
-
-                if (tag != null && (int) tag == R.drawable.ic_heart_filled) {
-                    button.setImageResource(R.drawable.ic_heart_empty);
-                    button.setTag(R.drawable.ic_heart_empty);
-                    item.setLiked(false);
-                    action = "remove";
-                } else {
-                    button.setImageResource(R.drawable.ic_heart_filled);
-                    button.setTag(R.drawable.ic_heart_filled);
-                    item.setLiked(true);
-                    action = "add";
+                if (v.getId() != holder.favoriteButton.getId()) {
+                    Intent intent = new Intent(context, PropertyDetailActivity.class);
+                    intent.putExtra("estate_id", item.getItemId());
+                    intent.putExtra("title", item.getTitle());
+                    context.startActivity(intent);
+                    ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
-
-
-                updateFavoriteInDatabase(item.getItemId(), action,button);
             }
         });
-
     }
-
     private void updateFavoriteInDatabase(int estateId, String action,ImageButton button) {
         String url = "http://10.0.2.2/mobile_project_backend/favorite.php";
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -138,6 +153,9 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
             bathroomCountTextView = itemView.findViewById(R.id.bathroomCountTextView);
             priceTextView = itemView.findViewById(R.id.priceTextView);
             favoriteButton = itemView.findViewById(R.id.favoriteButton);
+
+            favoriteButton.setFocusable(true);
+            favoriteButton.setClickable(true);
         }
     }
 }

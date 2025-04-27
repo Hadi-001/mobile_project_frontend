@@ -16,7 +16,7 @@ import java.util.List;
 public class PropertyVerticalAdapter extends RecyclerView.Adapter<PropertyVerticalAdapter.PropertyViewHolder> {
     private List<PropertyItem> items;
     private Context context;
-    private static final int REQUEST_CODE_PROPERTY_DETAIL = 2006;
+    protected static final int REQUEST_CODE_PROPERTY_DETAIL = 2006;
 
     public PropertyVerticalAdapter(List<PropertyItem> items, Context context) {
         this.items = items;
