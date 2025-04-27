@@ -1,5 +1,6 @@
 package com.example.mobile_project_frontend;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,7 +32,7 @@ public class ExploreActivity extends AppCompatActivity {
 
     private Spinner spCity, spPrice, spBeds, spBaths;
     private Button btnApartment, btnVilla, btnPenthouse, btnHouse, btnMansion;
-    private final Set<String> selectedTypes = new HashSet<>(); // **allow multiple categories**
+    private final Set<String> selectedTypes = new HashSet<>();
 
     private final List<View> allCards = new ArrayList<>();
     private final List<TextView> sectionHeaders = new ArrayList<>();
@@ -73,6 +76,7 @@ public class ExploreActivity extends AppCompatActivity {
         disableApplyButton();
 
         buildStaticCards();
+        setupBottomNavigation(); // <- 🔥 important
     }
 
     private void setCategoryButton(Button b, String type) {
@@ -97,9 +101,8 @@ public class ExploreActivity extends AppCompatActivity {
     private void unHighlightButton(Button b) {
         b.setTypeface(null, Typeface.NORMAL);
         b.setBackgroundTintList(ContextCompat.getColorStateList(this, android.R.color.transparent));
-        b.setTextColor(Color.parseColor("#6750A4"));
+        b.setTextColor(Color.parseColor("#6750A4")); // your original purple text color
     }
-
 
     private void initSpinner(Spinner sp, int arrayRes) {
         ArrayAdapter<CharSequence> ad = ArrayAdapter.createFromResource(
@@ -109,7 +112,8 @@ public class ExploreActivity extends AppCompatActivity {
 
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             boolean first = true;
-            @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
+            @Override
+            public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
                 if (first) { first = false; return; }
                 enableApplyButton();
             }
@@ -237,5 +241,32 @@ public class ExploreActivity extends AppCompatActivity {
         CardMeta(String t, String c, int b, int ba, int p) {
             type = t; city = c; beds = b; baths = ba; price = p;
         }
+    }
+
+    /* ✅ setup bottom navigation */
+    private void setupBottomNavigation() {
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_explore);
+
+        navView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.navigation_home) {
+                startActivity(new Intent(this, HomeActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.navigation_explore) {
+                return true; // already here
+            }
+//            else if (id == R.id.navigation_fav) {
+//                startActivity(new Intent(this, FavoritesActivity.class));
+//                finish();
+//               return true;
+//            } else if (id == R.id.navigation_profile) {
+//                startActivity(new Intent(this, ProfileActivity.class));
+//               finish();
+//                return true;
+//            }
+            return false;
+        });
     }
 }
