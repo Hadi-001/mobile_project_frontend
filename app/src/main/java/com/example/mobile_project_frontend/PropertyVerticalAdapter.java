@@ -7,97 +7,154 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
 
-public class PropertyVerticalAdapter extends RecyclerView.Adapter<PropertyVerticalAdapter.PropertyViewHolder> {
-    private List<PropertyItem> items;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class PropertyVerticalAdapter extends RecyclerView.Adapter<PropertyVerticalAdapter.ViewHolder> {
+
+    private List<PropertyItem> itemList;
     private Context context;
     protected static final int REQUEST_CODE_PROPERTY_DETAIL = 2006;
 
-    public PropertyVerticalAdapter(List<PropertyItem> items, Context context) {
-        this.items = items;
+    public PropertyVerticalAdapter(List<PropertyItem> itemList, Context context) {
+        this.itemList = itemList;
         this.context = context;
     }
 
-    public class PropertyViewHolder extends RecyclerView.ViewHolder {
-        public int propertyId;
-        private ImageButton favoriteButton;
-
-        public PropertyViewHolder(View itemView) {
-            super(itemView);
-            favoriteButton = itemView.findViewById(R.id.favoriteButton);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (propertyId >= 1) {
-                        Intent intent = new Intent(context, PropertyDetailActivity.class);
-                        intent.putExtra("PROPERTY_ID", propertyId);
-
-                        // Use startActivityForResult if the context is an Activity
-                        if (context instanceof Activity) {
-                            ((Activity) context).startActivityForResult(intent, REQUEST_CODE_PROPERTY_DETAIL);
-                        } else {
-                            // Fallback to regular startActivity if not
-                            context.startActivity(intent);
-                        }
-                    }
-                }
-            });
-
-            favoriteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    boolean isSelected = !favoriteButton.isSelected();
-                    favoriteButton.setSelected(isSelected);
-
-                    if (isSelected) {
-                        favoriteButton.setImageResource(R.drawable.ic_heart_filled);
-                    } else {
-                        favoriteButton.setImageResource(R.drawable.ic_heart_empty);
-                    }
-
-                    // Update in database if needed
-//                    int position = getAdapterPosition();
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        items.get(position).setFavorite(isSelected);
-//                    }
-                }
-            });
-        }
-
-        public void bindData(PropertyItem item) {
-            this.propertyId = item.getEstateId();
-            boolean isFavorite = item.isFavorite();
-            favoriteButton.setSelected(isFavorite);
-            favoriteButton.setImageResource(isFavorite ?
-                    R.drawable.ic_heart_filled : R.drawable.ic_heart_empty);
-
-            // Bind other views
-            TextView titleTextView = itemView.findViewById(R.id.titleTextView);
-            titleTextView.setText(item.getType());
-        }
-    }
-
+    @NonNull
     @Override
-    public PropertyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.estates_vertical, parent, false);
-        return new PropertyViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(PropertyViewHolder holder, int position) {
-        PropertyItem item = items.get(position);
-        holder.bindData(item);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        PropertyItem item = itemList.get(position);
+
+        // Bind data to views
+        holder.titleTextView.setText(item.getType());
+        // Add other view bindings as needed
+
+        // Load image with Glide if you have an image view
+        if (holder.imageView != null) {
+            Glide.with(holder.itemView.getContext())
+                    .load("http://10.0.2.2/" + item.getImageLink())
+                    .into(holder.imageView);
+        }
+
+        // Set favorite state
+        if (item.isFavorite()) {
+            holder.favoriteButton.setImageResource(R.drawable.ic_heart_filled);
+            holder.favoriteButton.setTag(R.drawable.ic_heart_filled);
+        } else {
+            holder.favoriteButton.setImageResource(R.drawable.ic_heart_empty);
+            holder.favoriteButton.setTag(R.drawable.ic_heart_empty);
+        }
+
+        // Set up favorite button click
+        User user = new User(context);
+        if (user.getUserId() > 0) {
+            holder.favoriteButton.setOnClickListener(v -> {
+                ImageButton button = (ImageButton) v;
+                Object tag = button.getTag();
+                button.setEnabled(false);
+                String action;
+
+                if (tag != null && (int) tag == R.drawable.ic_heart_filled) {
+                    button.setImageResource(R.drawable.ic_heart_empty);
+                    button.setTag(R.drawable.ic_heart_empty);
+                    item.setFavorite(false);
+                    action = "remove";
+                } else {
+                    button.setImageResource(R.drawable.ic_heart_filled);
+                    button.setTag(R.drawable.ic_heart_filled);
+                    item.setFavorite(true);
+                    action = "add";
+                }
+
+                updateFavoriteInDatabase(item.getEstateId(), action, button);
+            });
+        }
+
+        // Set up item click
+        holder.itemView.setOnClickListener(v -> {
+            if (v.getId() != holder.favoriteButton.getId()) {
+                Intent intent = new Intent(context, PropertyDetailActivity.class);
+                intent.putExtra("estate_id", item.getEstateId());
+
+                if (context instanceof Activity) {
+                    ((Activity) context).startActivityForResult(intent, REQUEST_CODE_PROPERTY_DETAIL);
+                } else {
+                    context.startActivity(intent);
+                }
+                ((Activity) context).overridePendingTransition(
+                        android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
+    }
+
+    private void updateFavoriteInDatabase(int estateId, String action, ImageButton button) {
+        String url = "http://10.0.2.2/mobile_project_backend/favorite.php";
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    button.setEnabled(true);
+                },
+                error -> {
+                    button.setEnabled(true);
+                    error.printStackTrace();
+                    Toast.makeText(context, "Error updating favorite", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                User user = new User(context);
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", String.valueOf(user.getUserId()));
+                params.put("estate_id", String.valueOf(estateId));
+                params.put("action", action);
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return itemList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
+        TextView titleTextView;
+        ImageButton favoriteButton;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.itemImage);
+            titleTextView = itemView.findViewById(R.id.titleTextView);
+            favoriteButton = itemView.findViewById(R.id.favoriteButton);
+
+            favoriteButton.setFocusable(true);
+            favoriteButton.setClickable(true);
+        }
     }
 }
