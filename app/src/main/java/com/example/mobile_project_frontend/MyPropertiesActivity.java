@@ -1,8 +1,9 @@
 package com.example.mobile_project_frontend;
 
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,116 +25,87 @@ import java.util.Map;
 
 public class MyPropertiesActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private MyPropertiesAdapter adapter;
-    private List<PropertyItem> propertyList;
+    private static final int REQ_EDIT = 101;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private RecyclerView rv;
+    private MyPropertiesAdapter adapter;
+    private final List<PropertyItem> data = new ArrayList<>();
+
+    @Override protected void onCreate(Bundle s){
+        super.onCreate(s);
         setContentView(R.layout.activity_my_properties);
 
-        recyclerView = findViewById(R.id.MyPropertiesRecycleView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        rv = findViewById(R.id.MyPropertiesRecycleView);
+        rv.setLayoutManager(new LinearLayoutManager(this));
 
-        propertyList = new ArrayList<>();
-        adapter = new MyPropertiesAdapter(propertyList, this, this::confirmDeleteProperty);
-        recyclerView.setAdapter(adapter);
+        adapter = new MyPropertiesAdapter(
+                data,
+                this,
+                this::confirmDelete,
+                p -> {
+                    Intent it = new Intent(this, EditActivity.class);
+                    it.putExtra("estate_id", p.getEstateId());
+                    startActivityForResult(it, REQ_EDIT);
+                });
+        rv.setAdapter(adapter);
 
-        loadMyProperties();
+        load();
     }
 
-    private void loadMyProperties() {
-        User user = new User(this);
-        int userId = user.getUserId();
+    private void load() {
+        int uid = new User(this).getUserId();
+        String url = "http://10.0.2.2/mobile_project_backend/get_user_estates.php?owner_id="+uid;
 
-        if (userId == -1) {
-            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        String url = "http://10.0.2.2/mobile_project_backend/get_user_estates.php?owner_id=" + userId;
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                response -> parseEstateResponse(response),
-                error -> Toast.makeText(this, "Failed to load properties", Toast.LENGTH_SHORT).show()
-        );
-
-        queue.add(request);
+        Volley.newRequestQueue(this).add(
+                new JsonArrayRequest(Request.Method.GET,url,null,
+                        this::parse,
+                        e -> Toast.makeText(this,"Load failed",Toast.LENGTH_SHORT).show()));
     }
 
-    private void parseEstateResponse(JSONArray response) {
-        try {
-            propertyList.clear();
-
-            for (int i = 0; i < response.length(); i++) {
-                JSONObject obj = response.getJSONObject(i);
-
-                PropertyItem item = new PropertyItem(
-                        obj.getInt("estate_id"),
-                        obj.getString("type"),
-                        obj.getInt("beds"),
-                        obj.getInt("baths"),
-                        obj.getDouble("price"),
-                        obj.getString("city"),
-                        obj.getString("street"),
-                        obj.getString("image_link"),
-                        obj.getInt("views"),
-                        obj.getDouble("area"),
-                        obj.getString("description"),
-                        obj.getString("date_build"),
-                        obj.getInt("owner_id"),
-                        obj.getString("post_date"),
-                        false
-                );
-
-                propertyList.add(item);
+    private void parse(JSONArray arr){
+        try{
+            data.clear();
+            for(int i=0;i<arr.length();i++){
+                JSONObject o=arr.getJSONObject(i);
+                data.add(new PropertyItem(
+                        o.getInt("estate_id"),  o.getString("type"),
+                        o.getInt("beds"),       o.getInt("baths"),
+                        o.getDouble("price"),   o.getString("city"),
+                        o.getString("street"),  o.getString("image_link"),
+                        o.getInt("views"),      o.getDouble("area"),
+                        o.getString("description"),
+                        o.getString("date_built"), o.getInt("owner_id"),
+                        o.getString("post_date"), false));
             }
-
             adapter.notifyDataSetChanged();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error parsing data", Toast.LENGTH_SHORT).show();
-        }
+        }catch(Exception e){ e.printStackTrace();}
     }
 
-    /** Show a confirmation dialog */
-    private void confirmDeleteProperty(PropertyItem property) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete Property")
+    /* ---------- delete flow ---------- */
+    private void confirmDelete(PropertyItem p){
+        new AlertDialog.Builder(this)
+                .setTitle("Delete property?")
                 .setMessage("Are you sure you want to delete this property?")
-                .setPositiveButton("Yes", (dialog, which) -> deleteProperty(property))
-                .setNegativeButton("No", null)
-                .show();
+                .setPositiveButton("Yes",(d,w)->doDelete(p))
+                .setNegativeButton("No",null).show();
     }
 
-    /** If confirmed, delete */
-    private void deleteProperty(PropertyItem property) {
-        String url = "http://10.0.2.2/mobile_project_backend/delete_estate.php";
+    private void doDelete(PropertyItem p){
+        String url="http://10.0.2.2/mobile_project_backend/delete_estate.php";
+        Volley.newRequestQueue(this).add(
+                new StringRequest(Request.Method.POST,url,
+                        r->{ data.remove(p); adapter.notifyDataSetChanged();
+                            Toast.makeText(this,"Deleted!",Toast.LENGTH_SHORT).show();},
+                        e->{ Toast.makeText(this,"Delete failed",Toast.LENGTH_SHORT).show();}
+                ){
+                    @Override protected Map<String,String> getParams(){
+                        Map<String,String> m=new HashMap<>(); m.put("estate_id",p.getEstateId()+""); return m;
+                    }});
+    }
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest request = new StringRequest(Request.Method.POST, url,
-                response -> {
-                    propertyList.remove(property);
-                    adapter.notifyDataSetChanged();
-                    Toast.makeText(this, "Property deleted!", Toast.LENGTH_SHORT).show();
-                },
-                error -> {
-                    Toast.makeText(this, "Failed to delete property", Toast.LENGTH_SHORT).show();
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("estate_id", String.valueOf(property.getEstateId()));
-                return params;
-            }
-        };
-
-        queue.add(request);
+    /* ---------- refresh after edit ---------- */
+    @Override protected void onActivityResult(int r,int c,Intent d){
+        super.onActivityResult(r,c,d);
+        if(r==REQ_EDIT && c==RESULT_OK) load();
     }
 }
