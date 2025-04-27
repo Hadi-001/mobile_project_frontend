@@ -46,6 +46,52 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!-- ── Spinner prompt strings (shown when nothing is selected) ─────── -->
+    <string name="select_city">Select a city</string>
+    <string name="select_price">Select a price range</string>
+    <string name="select_beds">Select beds</string>
+    <string name="select_baths">Select baths</string>
+
+    <!-- ── Spinner data: CITY LIST ─────────────────────────────────────── -->
+    <string-array name="city_list">
+        <item>All Cities</item>
+        <item>Los Angeles</item>
+        <item>Miami</item>
+        <item>Dubai</item>
+        <item>Malibu</item>
+        <item>New York</item>
+        <item>Austin</item>
+        <item>Beverly Hills</item>
+    </string-array>
+
+    <!-- ── PRICE LIST (basic ranges) ───────────────────────────────────── -->
+    <string-array name="price_list">
+        <item>Any price</item>
+        <item>&lt; $2 000</item>
+        <item>$2 000 – $4 999</item>
+        <item>$5 000 – $9 999</item>
+        <item>$10 000 +</item>
+    </string-array>
+
+    <!-- ── BEDS LIST ────────────────────────────────────────────────────── -->
+    <string-array name="beds_list">
+        <item>Any beds</item>
+        <item>1+</item>
+        <item>2+</item>
+        <item>3+</item>
+        <item>4+</item>
+        <item>5+</item>
+    </string-array>
+
+    <!-- ── BATHS LIST ───────────────────────────────────────────────────── -->
+    <string-array name="baths_list">
+        <item>Any baths</item>
+        <item>1+</item>
+        <item>2+</item>
+        <item>3+</item>
+        <item>4+</item>
+    </string-array>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
