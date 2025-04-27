@@ -184,6 +184,15 @@
             android:textAllCaps="false"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
+        <Button
+            android:id="@+id/uploadImageCameraButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Upload from Camera"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
         <ImageView
             android:id="@+id/propertyImageView"
             android:layout_width="200dp"
