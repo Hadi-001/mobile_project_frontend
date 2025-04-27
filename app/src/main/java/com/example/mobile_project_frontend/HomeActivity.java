@@ -144,7 +144,7 @@ public class HomeActivity extends AppCompatActivity {
                                         estate.getString("city"),
                                         estate.getInt("beds"),
                                         estate.getInt("baths"),
-                                        "$" + estate.getDouble("price"),
+                                        "$" + (int)estate.getDouble("price"),
                                         estate.getInt("is_liked") == 1
                                 ));
                             }
@@ -188,7 +188,7 @@ public class HomeActivity extends AppCompatActivity {
                                         estate.getString("city"),
                                         estate.getInt("beds"),
                                         estate.getInt("baths"),
-                                        "$" + estate.getDouble("price"),
+                                        "$" + (int)estate.getDouble("price"),
                                         estate.getInt("is_liked") == 1
                                 ));
                             }
