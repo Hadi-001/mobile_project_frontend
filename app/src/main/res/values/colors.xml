@@ -8,4 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#8009C509</color>
+    <color name="md_back">#121212</color>
+    <color name="md_surface">#1F1F1F</color>
+    <color name="md_onSurface">#FFFFFF</color>
+    <color name="md_outline">#3C3C3C</color>
+    <color name="md_accent">#0A84FF</color>
+    <color name="md_hint">#8E8E93</color>
+    <color name="avatarRed">#D32F2F</color>
 </resources>

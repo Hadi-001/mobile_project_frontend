@@ -1,83 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
-    android:background="#F8F1FF"
     android:padding="24dp">
+
+    <ImageView
+        android:id="@+id/signupLogo"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:contentDescription="Logo"
+        android:src="@drawable/logo"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/loginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Nest Portal"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#3E3A61"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="Sign In"
+        android:textSize="28sp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@id/signupLogo"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="60dp" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
         android:id="@+id/username"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="#3E3A61"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="32dp"
         android:hint="Username"
-        android:inputType="text"
-        android:textColor="#4CAF50"
-        android:textColorHint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/back"
+        android:padding="12dp"
+        android:textColor="#3E3A61"
+        android:textColorHint="#9E9E9E"
+        app:layout_constraintTop_toBottomOf="@id/loginTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginTitle" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
         android:id="@+id/password"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"
         android:hint="Password"
         android:inputType="textPassword"
-        android:backgroundTint="#3E3A61"
-        android:textColor="#4CAF50"
-        android:textColorHint="#4CAF50"
+        android:background="@drawable/back"
+        android:padding="12dp"
+        android:textColor="#3E3A61"
+        android:textColorHint="#9E9E9E"
         app:layout_constraintTop_toBottomOf="@id/username"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/loginButton"
-        android:layout_width="154dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="104dp"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"
-        android:backgroundTint="#4CAF50"
-        android:text="Login"
-        android:textColor="#FFF"
-        app:cornerRadius="25sp"
+        android:text="LOGIN"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:backgroundTint="#E91E63"
+        app:cornerRadius="12dp"
+        app:strokeColor="#E91E63"
+        app:strokeWidth="2dp"
+        app:layout_constraintTop_toBottomOf="@id/password"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="143dp"
-        android:layout_height="17dp"
-        android:text="Don't have an account? "
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="660dp" />
+    <LinearLayout
+        android:id="@+id/signupLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/loginButton"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <Button
-        android:id="@+id/signupButton"
-        android:layout_width="84dp"
-        android:layout_height="33dp"
-        android:backgroundTint="@color/teal_200"
-        android:text="@string/signup"
-        android:textSize="10sp"
-        tools:layout_editor_absoluteX="218dp"
-        tools:layout_editor_absoluteY="651dp" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account?"
+            android:textColor="#3E3A61"
+            android:textSize="14sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <Button
+            android:id="@+id/signupButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:fontFamily="sans-serif-medium"
+            android:paddingStart="8dp"
+            android:text="Sign up"
+            android:textAllCaps="false"
+            android:textColor="#207DC7"
+            android:textSize="14sp"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
