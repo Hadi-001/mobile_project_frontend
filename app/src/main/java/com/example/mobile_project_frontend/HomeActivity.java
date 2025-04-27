@@ -59,9 +59,9 @@ public class HomeActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.navigation_explore) {
                 startActivity(new Intent(this, ExploreActivity.class));
                 return true;
-//            } else if (item.getItemId() == R.id.navigation_fav) {
-//                startActivity(new Intent(this, FavoritesActivity.class));
-//                return true;
+            } else if (item.getItemId() == R.id.navigation_fav) {
+                startActivity(new Intent(this, MyFavoriteActivity.class));
+                return true;
               } else if (item.getItemId() == R.id.navigation_profile) {
                 startActivity(new Intent(this, AddPropertyActivity.class));
                 return true;

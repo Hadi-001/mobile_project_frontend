@@ -217,6 +217,6 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:background="?android:attr/windowBackground"
-        app:labelVisibilityMode="labeled"
+        app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_nav_menu" />
 </RelativeLayout>

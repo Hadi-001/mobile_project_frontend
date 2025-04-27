@@ -148,17 +148,17 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
+        android:backgroundTint="#807D7D"
         android:text="Sign up"
+        android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        android:backgroundTint="#E91E63"
         app:cornerRadius="12dp"
-        app:strokeColor="#E91E63"
-        app:strokeWidth="2dp"
-        android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/confirmPassword"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/confirmPassword"
+        app:strokeColor="#807D7D"
+        app:strokeWidth="2dp" />
 
 
     <LinearLayout
