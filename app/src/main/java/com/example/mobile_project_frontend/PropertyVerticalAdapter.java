@@ -1,6 +1,5 @@
 package com.example.mobile_project_frontend;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -48,11 +47,15 @@ public class PropertyVerticalAdapter extends RecyclerView.Adapter<PropertyVertic
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PropertyItem item = itemList.get(position);
 
-        // Bind data to views
+        // Bind all data to views
         holder.titleTextView.setText(item.getType());
-        // Add other view bindings as needed
+        holder.propertyTitleTextView.setText(item.getType());
+        holder.locationTextView.setText(item.getCity() + ", " + item.getStreet());
+        holder.bedroomCountTextView.setText(String.valueOf(item.getBeds()));
+        holder.bathroomCountTextView.setText(String.valueOf(item.getBaths()));
+        holder.priceTextView.setText("$" + String.format("%,.0f", item.getPrice())); // Formats price with commas
 
-        // Load image with Glide if you have an image view
+        // Load image with Glide
         if (holder.imageView != null) {
             Glide.with(holder.itemView.getContext())
                     .load("http://10.0.2.2/" + item.getImageLink())
@@ -95,16 +98,16 @@ public class PropertyVerticalAdapter extends RecyclerView.Adapter<PropertyVertic
 
         // Set up item click
         holder.itemView.setOnClickListener(v -> {
-            if (v.getId() != holder.favoriteButton.getId()) {
-                Intent intent = new Intent(context, PropertyDetailActivity.class);
-                intent.putExtra("estate_id", item.getEstateId());
+            Intent intent = new Intent(context, PropertyDetailActivity.class);
+            intent.putExtra("estate_id", item.getEstateId());
 
-                if (context instanceof Activity) {
-                    ((Activity) context).startActivityForResult(intent, REQUEST_CODE_PROPERTY_DETAIL);
-                } else {
-                    context.startActivity(intent);
-                }
-                ((Activity) context).overridePendingTransition(
+            if (context instanceof android.app.Activity) {
+                ((android.app.Activity) context).startActivityForResult(intent, REQUEST_CODE_PROPERTY_DETAIL);
+            } else {
+                context.startActivity(intent);
+            }
+            if (context instanceof android.app.Activity) {
+                ((android.app.Activity) context).overridePendingTransition(
                         android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
@@ -145,12 +148,22 @@ public class PropertyVerticalAdapter extends RecyclerView.Adapter<PropertyVertic
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView titleTextView;
+        TextView propertyTitleTextView;
+        TextView locationTextView;
+        TextView bedroomCountTextView;
+        TextView bathroomCountTextView;
+        TextView priceTextView;
         ImageButton favoriteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.itemImage);
             titleTextView = itemView.findViewById(R.id.titleTextView);
+            propertyTitleTextView = itemView.findViewById(R.id.propertyTitleTextView);
+            locationTextView = itemView.findViewById(R.id.locationTextView);
+            bedroomCountTextView = itemView.findViewById(R.id.bedroomCountTextView);
+            bathroomCountTextView = itemView.findViewById(R.id.bathroomCountTextView);
+            priceTextView = itemView.findViewById(R.id.priceTextView);
             favoriteButton = itemView.findViewById(R.id.favoriteButton);
 
             favoriteButton.setFocusable(true);
