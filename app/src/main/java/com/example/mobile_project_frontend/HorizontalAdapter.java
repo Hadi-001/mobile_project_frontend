@@ -1,25 +1,35 @@
 package com.example.mobile_project_frontend;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.ViewHolder> {
 
     private List<HorizontalItem> itemList;
+    Context context;
 
-    public HorizontalAdapter(List<HorizontalItem> itemList) {
+    public HorizontalAdapter(List<HorizontalItem> itemList, Context context) {
         this.itemList = itemList;
+        this.context = context;
     }
 
     @NonNull
@@ -32,8 +42,6 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HorizontalItem item = itemList.get(position);
-        holder.imageView.setImageResource(item.getImageResId());
-        holder.favoriteButton.setTag(item.getImageResId());
         holder.titleTextView.setText(item.getTitle());
         holder.propertyTitleTextView.setText(item.getPropertyTitle());
         holder.locationTextView.setText(item.getLocation());
@@ -41,23 +49,74 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
         holder.bathroomCountTextView.setText(String.valueOf(item.getBathroomCount()));
         holder.priceTextView.setText(item.getPrice());
 
+        Glide.with(holder.itemView.getContext())
+                .load("http://10.0.2.2/" + item.getImageURL())
+                .into(holder.imageView);
 
-        holder.favoriteButton.setOnClickListener(new View.OnClickListener() {
+        if (item.isLiked()) {
+            holder.favoriteButton.setImageResource(R.drawable.ic_heart_filled);
+            holder.favoriteButton.setTag(R.drawable.ic_heart_filled);
+        } else {
+            holder.favoriteButton.setImageResource(R.drawable.ic_heart_empty);
+            holder.favoriteButton.setTag(R.drawable.ic_heart_empty);
+        }
+
+        User user = new User(context);
+
+        if(user.getUserId() > 0)holder.favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ImageButton button = (ImageButton) v;
                 Object tag = button.getTag();
+                button.setEnabled(false);
+                String action;
+
                 if (tag != null && (int) tag == R.drawable.ic_heart_filled) {
                     button.setImageResource(R.drawable.ic_heart_empty);
                     button.setTag(R.drawable.ic_heart_empty);
+                    item.setLiked(false);
+                    action = "remove";
                 } else {
                     button.setImageResource(R.drawable.ic_heart_filled);
                     button.setTag(R.drawable.ic_heart_filled);
+                    item.setLiked(true);
+                    action = "add";
                 }
+
+
+                updateFavoriteInDatabase(item.getItemId(), action,button);
             }
         });
 
     }
+
+    private void updateFavoriteInDatabase(int estateId, String action,ImageButton button) {
+        String url = "http://10.0.2.2/mobile_project_backend/favorite.php";
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                response -> {
+                   button.setEnabled(true);
+                },
+                error -> {
+                    // Error occurred
+                    button.setEnabled(true);
+                    error.printStackTrace();
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                User user = new User(context);
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", String.valueOf(user.getUserId()));
+                params.put("estate_id", String.valueOf(estateId));
+                params.put("action", action);
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
 
     @Override
     public int getItemCount() {

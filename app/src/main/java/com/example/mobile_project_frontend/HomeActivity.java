@@ -1,12 +1,23 @@
 package com.example.mobile_project_frontend;
 
-import android.os.Bundle;
+import static android.app.ProgressDialog.show;
 
+import android.os.Bundle;
+import android.widget.Toast;
+
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONArray;
+
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +25,7 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     private BottomNavigationView navView;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +37,9 @@ public class HomeActivity extends AppCompatActivity {
             getSupportActionBar().hide(); // to hide the action bar
         }
         navView = findViewById(R.id.nav_view);
+
+        user = new User(this);
+        user.setUserId(-1);
 
 //        navView.setOnItemSelectedListener(item -> {
 //            switch (item.getItemId()) {
@@ -44,113 +59,98 @@ public class HomeActivity extends AppCompatActivity {
 //            return false;
 //        });
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewTrending);
-        List<HorizontalItem> itemList = generateFakeItems();
-        HorizontalAdapter adapter = new HorizontalAdapter(itemList);
-        recyclerView.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
 
+        fetchTrendingEstates();
 
-
-        RecyclerView recyclerViewNearest = findViewById(R.id.recyclerViewNearest);
-        List<HorizontalItem> nearestItemList = generateNearestFakeItems();
-        HorizontalAdapter nearestAdapter = new HorizontalAdapter(nearestItemList);
-        recyclerViewNearest.setAdapter(nearestAdapter);
-        LinearLayoutManager nearestLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewNearest.setLayoutManager(nearestLayoutManager);
+        fetchLatestEstates();
 
 
     }
 
-    private List<HorizontalItem> generateFakeItems() {
-        List<HorizontalItem> itemList = new ArrayList<>();
+    private void fetchTrendingEstates() {
+        String url = "http://10.0.2.2/mobile_project_backend/get_trending_estate.php?user_id=" + user.getUserId();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        boolean success = response.getBoolean("success");
 
-        itemList.add(new HorizontalItem(
-                1,
-                R.drawable.appartment_pic,
-                "Apartment",
-                "Royal Apartment",
-                "Los Angeles, CA",
-                3,
-                2,
-                "$1,500"
-        ));
+                        if (success) {
+                            JSONArray estatesArray = response.getJSONArray("estates");
+                            List<HorizontalItem> itemList = new ArrayList<>();
 
-        itemList.add(new HorizontalItem(
-                2,
-                R.drawable.appartment_pic,
-                "Villa",
-                "Luxury Villa",
-                "Miami, FL",
-                5,
-                4,
-                "$3,800"
-        ));
+                            for (int i = 0; i < estatesArray.length(); i++) {
+                                JSONObject estate = estatesArray.getJSONObject(i);
+                                itemList.add(new HorizontalItem(
+                                        estate.getInt("estate_id"),
+                                        estate.getString("image_link"),
+                                        estate.getString("type"),
+                                        estate.getString("type"),
+                                        estate.getString("city"),
+                                        estate.getInt("beds"),
+                                        estate.getInt("baths"),
+                                        "$" + estate.getDouble("price"),
+                                        estate.getInt("is_liked") == 1
+                                ));
+                            }
+                            RecyclerView recyclerView = findViewById(R.id.recyclerViewTrending);
+                            HorizontalAdapter adapter = new HorizontalAdapter(itemList,HomeActivity.this);
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    error.printStackTrace();
+                });
 
-        itemList.add(new HorizontalItem(
-                3,
-                R.drawable.appartment_pic,
-                "Condo",
-                "Sunset Condo",
-                "San Diego, CA",
-                2,
-                1,
-                "$2,100"
-        ));
-
-        itemList.add(new HorizontalItem(
-                4,
-                R.drawable.appartment_pic,
-                "Penthouse",
-                "Skyline Penthouse",
-                "New York, NY",
-                4,
-                3,
-                "$5,500"
-        ));
-
-        return itemList;
+        Volley.newRequestQueue(this).add(request);
     }
 
-    private List<HorizontalItem> generateNearestFakeItems() {
-        List<HorizontalItem> itemList = new ArrayList<>();
 
-        itemList.add(new HorizontalItem(
-                5,
-                R.drawable.appartment_pic,
-                "Nearest Apartment",
-                "Downtown Studio",
-                "Los Angeles, CA",
-                1,
-                1,
-                "$900"
-        ));
+    private void fetchLatestEstates() {
+        String url = "http://10.0.2.2/mobile_project_backend/get_latest_estate.php?user_id=" + user.getUserId();
 
-        itemList.add(new HorizontalItem(
-                6,
-                R.drawable.appartment_pic,
-                "Nearest Villa",
-                "Cozy Villa",
-                "Santa Monica, CA",
-                3,
-                2,
-                "$2,700"
-        ));
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        boolean success = response.getBoolean("success");
+                        if (success) {
+                            JSONArray estatesArray = response.getJSONArray("estates");
+                            List<HorizontalItem> itemList = new ArrayList<>();
 
-        itemList.add(new HorizontalItem(
-                7,
-                R.drawable.appartment_pic,
-                "Nearest Condo",
-                "Beachside Condo",
-                "Venice Beach, CA",
-                2,
-                2,
-                "$1,800"
-        ));
+                            for (int i = 0; i < estatesArray.length(); i++) {
+                                JSONObject estate = estatesArray.getJSONObject(i);
+                                itemList.add(new HorizontalItem(
+                                        estate.getInt("estate_id"),
+                                        estate.getString("image_link"),
+                                        estate.getString("type"),
+                                        estate.getString("type"),
+                                        estate.getString("city"),
+                                        estate.getInt("beds"),
+                                        estate.getInt("baths"),
+                                        "$" + estate.getDouble("price"),
+                                        estate.getInt("is_liked") == 1
+                                ));
+                            }
 
-        return itemList;
+                            RecyclerView recyclerViewNearest = findViewById(R.id.recyclerViewNearest);
+                            HorizontalAdapter adapter = new HorizontalAdapter(itemList,HomeActivity.this);
+                            recyclerViewNearest.setAdapter(adapter);
+                            recyclerViewNearest.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                });
+
+        Volley.newRequestQueue(this).add(request);
     }
-
 
 }
