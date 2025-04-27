@@ -49,6 +49,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.text.SimpleDateFormat;
 
+
 public class AddPropertyActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -327,6 +328,7 @@ public class AddPropertyActivity extends AppCompatActivity {
 
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
                 response -> {
+                    // Handle success
                     try {
                         JSONObject jsonResponse = new JSONObject(new String(response.data));
                         if (jsonResponse.getBoolean("success")) {
@@ -359,7 +361,7 @@ public class AddPropertyActivity extends AppCompatActivity {
             protected Map<String, DataPart> getByteData() {
                 Map<String, DataPart> params = new HashMap<>();
                 byte[] imageData = getFileDataFromUri(imageUri);
-                String imageName = "uploaded_image.png";
+                String imageName = "uploaded_image.png";  // You can get the file name from the URI if needed
                 params.put("image", new DataPart(imageName, imageData));
                 return params;
             }

@@ -7,68 +7,85 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-
+import com.google.android.material.imageview.ShapeableImageView;
 import java.util.List;
 
-public class MyPropertiesAdapter
-        extends RecyclerView.Adapter<MyPropertiesAdapter.Holder> {
+public class MyPropertiesAdapter extends RecyclerView.Adapter<MyPropertiesAdapter.ViewHolder> {
 
     public interface OnDeleteClickListener { void onDelete(PropertyItem p); }
-    public interface OnEditClickListener   { void onEdit  (PropertyItem p); }
+    public interface OnEditClickListener { void onEdit(PropertyItem p); }
 
-    private final List<PropertyItem> list;
-    private final Context ctx;
-    private final OnDeleteClickListener deleteCb;
-    private final OnEditClickListener   editCb;
+    private final List<PropertyItem> propertyList;
+    private final Context context;
+    private final OnDeleteClickListener deleteListener;
+    private final OnEditClickListener editListener;
 
-    public MyPropertiesAdapter(List<PropertyItem> list,
-                               Context ctx,
-                               OnDeleteClickListener d,
-                               OnEditClickListener   e) {
-        this.list     = list;
-        this.ctx      = ctx;
-        this.deleteCb = d;
-        this.editCb   = e;
+    public MyPropertiesAdapter(List<PropertyItem> propertyList,
+                               Context context,
+                               OnDeleteClickListener deleteListener,
+                               OnEditClickListener editListener) {
+        this.propertyList = propertyList;
+        this.context = context;
+        this.deleteListener = deleteListener;
+        this.editListener = editListener;
     }
 
     @NonNull
-    @Override public Holder onCreateViewHolder(@NonNull ViewGroup p,int v) {
-        View view = LayoutInflater.from(p.getContext())
-                .inflate(R.layout.estates_vertical, p,false);
-        return new Holder(view);
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.estates_vertical, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder h,int pos){
-        PropertyItem item = list.get(pos);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        PropertyItem property = propertyList.get(position);
 
-        h.title.setText(item.getType());
-        Glide.with(ctx)
-                .load("http://10.0.2.2/" + item.getImageLink())
-                .into(h.thumb);
+        // Bind all property data to views
+        holder.titleTextView.setText(property.getType());
+        holder.propertyTitleTextView.setText(property.getType());
+        holder.locationTextView.setText(property.getCity() + ", " + property.getStreet());
+        holder.bedroomCountTextView.setText(String.valueOf(property.getBeds()));
+        holder.bathroomCountTextView.setText(String.valueOf(property.getBaths()));
+        holder.priceTextView.setText("$" + String.format("%,.0f", property.getPrice()));
 
-        h.bin.setImageResource(R.drawable.ic_delete);          // 🗑️ icon
-        h.bin.setOnClickListener(v -> deleteCb.onDelete(item));
+        // Load image with Glide
+        Glide.with(context)
+                .load("http://10.0.2.2/" + property.getImageLink())
+                .into(holder.imageView);
 
-        h.itemView.setOnClickListener(v -> editCb.onEdit(item));
+        // Set up delete button
+        holder.deleteButton.setImageResource(R.drawable.ic_delete);
+        holder.deleteButton.setOnClickListener(v -> deleteListener.onDelete(property));
+
+        // Set up edit click on the whole item
+        holder.itemView.setOnClickListener(v -> editListener.onEdit(property));
     }
 
-    @Override public int getItemCount(){ return list.size(); }
+    @Override
+    public int getItemCount() {
+        return propertyList.size();
+    }
 
-    static class Holder extends RecyclerView.ViewHolder{
-        ImageView  thumb;
-        TextView   title;
-        ImageButton bin;
-        Holder(@NonNull View v){
-            super(v);
-            thumb = v.findViewById(R.id.itemImage);
-            title = v.findViewById(R.id.titleTextView);
-            bin   = v.findViewById(R.id.favoriteButton);  // reused id
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
+        TextView titleTextView, propertyTitleTextView, locationTextView, bedroomCountTextView, bathroomCountTextView, priceTextView;
+        ImageButton deleteButton;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.itemImage);
+            titleTextView = itemView.findViewById(R.id.titleTextView);
+            propertyTitleTextView = itemView.findViewById(R.id.propertyTitleTextView);
+            locationTextView = itemView.findViewById(R.id.locationTextView);
+            bedroomCountTextView = itemView.findViewById(R.id.bedroomCountTextView);
+            bathroomCountTextView = itemView.findViewById(R.id.bathroomCountTextView);
+            priceTextView = itemView.findViewById(R.id.priceTextView);
+            deleteButton = itemView.findViewById(R.id.favoriteButton); // Reusing the favorite button for delete
         }
     }
 }

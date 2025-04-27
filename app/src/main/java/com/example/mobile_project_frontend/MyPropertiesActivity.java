@@ -81,7 +81,6 @@ public class MyPropertiesActivity extends AppCompatActivity {
         }catch(Exception e){ e.printStackTrace();}
     }
 
-    /* ---------- delete flow ---------- */
     private void confirmDelete(PropertyItem p){
         new AlertDialog.Builder(this)
                 .setTitle("Delete property?")
@@ -103,7 +102,6 @@ public class MyPropertiesActivity extends AppCompatActivity {
                     }});
     }
 
-    /* ---------- refresh after edit ---------- */
     @Override protected void onActivityResult(int r,int c,Intent d){
         super.onActivityResult(r,c,d);
         if(r==REQ_EDIT && c==RESULT_OK) load();
