@@ -18,7 +18,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,15 +39,19 @@ public class ExploreActivity extends AppCompatActivity {
 
     private Spinner spCity, spPrice, spBeds, spBaths;
     private Button btnApartment, btnVilla, btnPenthouse, btnHouse, btnMansion;
-    private final Set<String> selectedTypes = new HashSet<>();
 
-    private final List<View> allCards = new ArrayList<>();
+    // all fetched properties
+    private final List<PropertyItem> allProperties = new ArrayList<>();
+
+    // for grouping / headers
     private final List<TextView> sectionHeaders = new ArrayList<>();
 
+
+    private final List<View> allCards = new ArrayList<>();
+    // filters
+    private final Set<String> selectedTypes = new HashSet<>();
     private String cityFilter = null;
-    private int minBeds = -1;
-    private int minBaths = -1;
-    private int priceBand = -1;
+    private int minBeds = -1, minBaths = -1, priceBand = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,35 +59,35 @@ public class ExploreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_explore);
 
         containerLayout = findViewById(R.id.containerLayout);
-        btnApply = findViewById(R.id.btn_apply_filters);
+        btnApply        = findViewById(R.id.btn_apply_filters);
 
-        btnApartment = findViewById(R.id.filter_apartment);
-        btnVilla = findViewById(R.id.filter_villa);
-        btnPenthouse = findViewById(R.id.filter_penthouse);
-        btnHouse = findViewById(R.id.filter_house);
-        btnMansion = findViewById(R.id.filter_mansion);
+        btnApartment  = findViewById(R.id.filter_apartment);
+        btnVilla      = findViewById(R.id.filter_villa);
+        btnPenthouse  = findViewById(R.id.filter_penthouse);
+        btnHouse      = findViewById(R.id.filter_house);
+        btnMansion    = findViewById(R.id.filter_mansion);
 
-        setCategoryButton(btnApartment, "Apartment");
-        setCategoryButton(btnVilla, "Villa");
-        setCategoryButton(btnPenthouse, "Penthouse");
-        setCategoryButton(btnHouse, "House");
-        setCategoryButton(btnMansion, "Mansion");
+        setCategoryButton(btnApartment,  "Apartment");
+        setCategoryButton(btnVilla,      "Villa");
+        setCategoryButton(btnPenthouse,  "Penthouse");
+        setCategoryButton(btnHouse,      "House");
+        setCategoryButton(btnMansion,    "Mansion");
 
-        spCity = findViewById(R.id.city_spinner);
+        spCity  = findViewById(R.id.city_spinner);
         spPrice = findViewById(R.id.price_spinner);
-        spBeds = findViewById(R.id.beds_spinner);
+        spBeds  = findViewById(R.id.beds_spinner);
         spBaths = findViewById(R.id.baths_spinner);
 
-        initSpinner(spCity, R.array.city_list);
+        initSpinner(spCity,  R.array.city_list);
         initSpinner(spPrice, R.array.price_list);
-        initSpinner(spBeds, R.array.beds_list);
+        initSpinner(spBeds,  R.array.beds_list);
         initSpinner(spBaths, R.array.baths_list);
 
         btnApply.setOnClickListener(v -> applyFilters());
         disableApplyButton();
 
-        buildStaticCards();
-        setupBottomNavigation(); // <- 🔥 important
+        setupBottomNavigation();
+        fetchAllEstates();
     }
 
     private void setCategoryButton(Button b, String type) {
@@ -101,7 +112,7 @@ public class ExploreActivity extends AppCompatActivity {
     private void unHighlightButton(Button b) {
         b.setTypeface(null, Typeface.NORMAL);
         b.setBackgroundTintList(ContextCompat.getColorStateList(this, android.R.color.transparent));
-        b.setTextColor(Color.parseColor("#6750A4")); // your original purple text color
+        b.setTextColor(Color.parseColor("#6750A4"));
     }
 
     private void initSpinner(Spinner sp, int arrayRes) {
@@ -109,11 +120,9 @@ public class ExploreActivity extends AppCompatActivity {
                 this, arrayRes, android.R.layout.simple_spinner_item);
         ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(ad);
-
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             boolean first = true;
-            @Override
-            public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
+            @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
                 if (first) { first = false; return; }
                 enableApplyButton();
             }
@@ -131,142 +140,176 @@ public class ExploreActivity extends AppCompatActivity {
         btnApply.setAlpha(0.4f);
     }
 
-    private void buildStaticCards() {
-        addSection("Apartment",
-                card("Apartment", "Royal Apartment", "Los Angeles, CA", 2, 2, 1500),
-                card("Apartment", "Sunny Apartment", "Miami, FL", 3, 2, 2000));
-
-        addSection("Villa",
-                card("Villa", "Luxury Villa", "Dubai", 5, 4, 8000),
-                card("Villa", "Beachfront Villa", "Malibu", 4, 3, 6000));
-
-        addSection("Penthouse",
-                card("Penthouse", "Skyline Penthouse", "New York, NY", 3, 3, 12000));
-
-        addSection("House",
-                card("House", "Family House", "Austin, TX", 4, 3, 4000));
-
-        addSection("Mansion",
-                card("Mansion", "Grand Mansion", "Beverly Hills", 8, 7, 25000));
-    }
-
-    private void addSection(String name, View... cards) {
-        TextView header = new TextView(this);
-        header.setText(name);
-        header.setTextSize(22);
-        header.setPadding(8, 32, 8, 8);
-        containerLayout.addView(header);
-        sectionHeaders.add(header);
-
-        for (View c : cards) containerLayout.addView(c);
-    }
-
-    private View card(String type, String title, String city, int beds, int baths, int price) {
-        View v = LayoutInflater.from(this).inflate(R.layout.estates_vertical, containerLayout, false);
-
-        ((ImageView) v.findViewById(R.id.itemImage)).setImageResource(R.drawable.appartment_pic);
-        ((TextView) v.findViewById(R.id.titleTextView)).setText(type);
-        ((TextView) v.findViewById(R.id.propertyTitleTextView)).setText(title);
-        ((TextView) v.findViewById(R.id.locationTextView)).setText(city);
-        ((TextView) v.findViewById(R.id.bedroomCountTextView)).setText(String.valueOf(beds));
-        ((TextView) v.findViewById(R.id.bathroomCountTextView)).setText(String.valueOf(baths));
-        ((TextView) v.findViewById(R.id.priceTextView))
-                .setText(String.format("$%,d", price));
-
-        ImageButton heart = v.findViewById(R.id.favoriteButton);
-        heart.setOnClickListener(b -> {
-            boolean sel = !heart.isSelected();
-            heart.setSelected(sel);
-            heart.setImageResource(sel ? R.drawable.ic_heart_filled : R.drawable.ic_heart_empty);
-        });
-
-        v.setTag(new CardMeta(type, city, beds, baths, price));
-        allCards.add(v);
-        return v;
-    }
-
-    private void applyFilters() {
-        cityFilter = (spCity.getSelectedItemPosition() == 0) ? null : spCity.getSelectedItem().toString();
-        priceBand = spPrice.getSelectedItemPosition();
-        minBeds = parseMin(spBeds.getSelectedItem().toString());
-        minBaths = parseMin(spBaths.getSelectedItem().toString());
-
-        for (View v : allCards) {
-            CardMeta m = (CardMeta) v.getTag();
-            boolean show =
-                    (selectedTypes.isEmpty() || selectedTypes.contains(m.type)) &&
-                            (cityFilter == null || m.city.startsWith(cityFilter)) &&
-                            (minBeds == -1 || m.beds >= minBeds) &&
-                            (minBaths == -1 || m.baths >= minBaths) &&
-                            pricePass(m.price);
-            v.setVisibility(show ? View.VISIBLE : View.GONE);
-        }
-        refreshSectionHeaders();
-        disableApplyButton();
-    }
-
-    private void refreshSectionHeaders() {
-        for (TextView header : sectionHeaders) {
-            boolean anyVisible = false;
-            int start = containerLayout.indexOfChild(header) + 1;
-            for (int i = start; i < containerLayout.getChildCount(); i++) {
-                View c = containerLayout.getChildAt(i);
-                if (c instanceof TextView) break;
-                if (c.getVisibility() == View.VISIBLE) {
-                    anyVisible = true;
-                    break;
-                }
-            }
-            header.setVisibility(anyVisible ? View.VISIBLE : View.GONE);
-        }
-    }
-
-    private boolean pricePass(int p) {
-        switch (priceBand) {
-            case 0: return true;
-            case 1: return p < 2000;
-            case 2: return p >= 2000 && p < 5000;
-            case 3: return p >= 5000 && p < 10000;
-            case 4: return p >= 10000;
-            default: return true;
-        }
-    }
-
-    private int parseMin(String txt) {
-        return txt.startsWith("Any") ? -1 : Integer.parseInt(txt.replaceAll("[^0-9]", ""));
-    }
-
-    static class CardMeta {
-        String type, city; int beds, baths, price;
-        CardMeta(String t, String c, int b, int ba, int p) {
-            type = t; city = c; beds = b; baths = ba; price = p;
-        }
-    }
-
-    /* ✅ setup bottom navigation */
     private void setupBottomNavigation() {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_explore);
-
         navView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.navigation_home) {
                 startActivity(new Intent(this, HomeActivity.class));
                 finish();
                 return true;
-            } else if (id == R.id.navigation_explore) {
-                return true; // already here
             }
-//            else if (id == R.id.navigation_fav) {
-//                startActivity(new Intent(this, FavoritesActivity.class));
-//                finish();
-//               return true;
-//            } else if (id == R.id.navigation_profile) {
-//                startActivity(new Intent(this, ProfileActivity.class));
-//               finish();
-//                return true;
-//            }
-            return false;
+            return id == R.id.navigation_explore;
         });
+    }
+
+    /** Fetch every estate from backend */
+    private void fetchAllEstates() {
+        String url = "http://10.0.2.2/mobile_project_backend/get_all_estates.php";
+        RequestQueue q = Volley.newRequestQueue(this);
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url, null,
+                response -> {
+                    parseAndDisplay(response);
+                },
+                error -> error.printStackTrace()
+        );
+        q.add(req);
+    }
+
+    /** Parse JSON array and rebuild UI */
+    private void parseAndDisplay(JSONArray arr) {
+        try {
+            allProperties.clear();
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject o = arr.getJSONObject(i);
+                allProperties.add(new PropertyItem(
+                        o.getInt("estate_id"),
+                        o.getString("type"),
+                        o.getInt("beds"),
+                        o.getInt("baths"),
+                        o.getDouble("price"),
+                        o.getString("city"),
+                        o.getString("street"),
+                        o.getString("image_link"),
+                        o.getInt("views"),
+                        o.getDouble("area"),
+                        o.getString("description"),
+                        o.getString("date_build"),
+                        o.getInt("owner_id"),
+                        o.getString("post_date"),
+                        false
+                ));
+            }
+            rebuildSections();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** Clear and re-draw all sections & cards */
+    private void rebuildSections() {
+        containerLayout.removeAllViews();
+        sectionHeaders.clear();
+
+        addSection("Apartment",  filterByType("Apartment"));
+        addSection("Villa",      filterByType("Villa"));
+        addSection("Penthouse",  filterByType("Penthouse"));
+        addSection("House",      filterByType("House"));
+        addSection("Mansion",    filterByType("Mansion"));
+    }
+
+    private List<PropertyItem> filterByType(String type) {
+        List<PropertyItem> sub = new ArrayList<>();
+        for (PropertyItem p : allProperties) {
+            if (p.getType().equalsIgnoreCase(type)) sub.add(p);
+        }
+        return sub;
+    }
+
+    private void addSection(String title, List<PropertyItem> items) {
+        if (items.isEmpty()) return;
+
+        TextView header = new TextView(this);
+        header.setText(title);
+        header.setTextSize(22);
+        header.setPadding(8, 32, 8, 8);
+        containerLayout.addView(header);
+        sectionHeaders.add(header);
+
+        for (PropertyItem p : items) {
+            containerLayout.addView(card(p));
+        }
+    }
+
+    private View card(PropertyItem item) {
+        View v = LayoutInflater.from(this)
+                .inflate(R.layout.estates_vertical, containerLayout, false);
+
+        ((ImageView)v.findViewById(R.id.itemImage))
+                .setImageResource(R.drawable.appartment_pic);
+        ((TextView)v.findViewById(R.id.titleTextView))
+                .setText(item.getType());
+        ((TextView)v.findViewById(R.id.propertyTitleTextView))
+                .setText(item.getStreet());
+        ((TextView)v.findViewById(R.id.locationTextView))
+                .setText(item.getCity());
+        ((TextView)v.findViewById(R.id.bedroomCountTextView))
+                .setText(String.valueOf(item.getBeds()));
+        ((TextView)v.findViewById(R.id.bathroomCountTextView))
+                .setText(String.valueOf(item.getBaths()));
+        ((TextView)v.findViewById(R.id.priceTextView))
+                .setText(String.format("$%,.0f", item.getPrice()));
+
+        ImageButton heart = v.findViewById(R.id.favoriteButton);
+        heart.setOnClickListener(b -> {
+            boolean sel = !heart.isSelected();
+            heart.setSelected(sel);
+            heart.setImageResource(
+                    sel ? R.drawable.ic_heart_filled : R.drawable.ic_heart_empty
+            );
+        });
+
+        v.setTag(item);
+        allCards.add(v);
+        return v;
+    }
+
+    /** Apply local filters on the already-fetched list */
+    private void applyFilters() {
+        // read spinner values
+        cityFilter = spCity.getSelectedItemPosition()==0
+                ? null
+                : spCity.getSelectedItem().toString();
+        priceBand = spPrice.getSelectedItemPosition();
+        minBeds   = parseMin(spBeds.getSelectedItem().toString());
+        minBaths  = parseMin(spBaths.getSelectedItem().toString());
+
+        // rebuild with filtering
+        containerLayout.removeAllViews();
+        for (String type : new String[]{"Apartment","Villa","Penthouse","House","Mansion"}) {
+            List<PropertyItem> list = filterByType(type);
+            // apply spinner filters
+            List<PropertyItem> filtered = new ArrayList<>();
+            for (PropertyItem p : list) {
+                if ((selectedTypes.isEmpty() || selectedTypes.contains(p.getType()))
+                        && (cityFilter==null   || p.getCity().startsWith(cityFilter))
+                        && (minBeds  < 0     || p.getBeds() >= minBeds)
+                        && (minBaths < 0     || p.getBaths()>= minBaths)
+                        && pricePass(p.getPrice()))
+                {
+                    filtered.add(p);
+                }
+            }
+            addSection(type, filtered);
+        }
+        disableApplyButton();
+    }
+
+    private boolean pricePass(double p) {
+        switch (priceBand) {
+            case 0: return true;
+            case 1: return p < 2000;
+            case 2: return p < 5000;
+            case 3: return p < 10000;
+            case 4: return p >= 10000;
+            default: return true;
+        }
+    }
+
+    private int parseMin(String txt) {
+        return txt.startsWith("Any")
+                ? -1
+                : Integer.parseInt(txt.replaceAll("[^0-9]",""));
     }
 }
