@@ -21,6 +21,25 @@
     <string name="title_profile">Profile</string>
     <string name="title_fav">Favourites</string>
     <string name="back_arrow">Go back</string>
+    <string name="btn_add_property">Add Property</string>
+    <string name="upload_img">Upload Property Image</string>
+    <string name="hint_desc">Description</string>
+    <string name="hint_build">Build Date</string>
+    <string name="hint_address">Street Address</string>
+    <string name="hint_bath">Bathrooms</string>
+    <string name="hint_city">City</string>
+    <string name="hint_Bedrooms">Bedrooms</string>
+    <string name="hint_area">Area (sq m)</string>
+    <string name="hint_price">Price</string>
+    <string name="hint_p_type">Select Property Type</string>
+    <string name="add_p">Add New Property</string>
+    <string-array name="property_types">
+        <item>Apartment</item>
+        <item>Villa</item>
+        <item>Penthouse</item>
+        <item>House</item>
+        <item>Mansion</item>
+    </string-array>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
