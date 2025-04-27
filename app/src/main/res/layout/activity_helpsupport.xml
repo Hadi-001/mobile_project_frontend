@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:fillViewport="true">
+
+    <LinearLayout
+    android:id="@+id/mainLayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp" >
+
+        <TextView
+            android:id="@+id/helpSupportTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Help  Support"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/helpSupportImage"
+            android:layout_width="316dp"
+            android:layout_height="239dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:clipToOutline="true"
+            android:contentDescription="Help Support Image"
+            android:elevation="30px"
+            android:scaleType="fitCenter"
+            android:src="@drawable/helpsupport"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+    android:id="@+id/helpSupportDescription"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Here you can find answers to common questions or contact us directly."
+    android:textSize="16sp"
+    android:textColor="#444444"
+    android:gravity="center"
+    android:layout_marginTop="16dp"/>
+
+
+<!-- FAQ Section -->
+<!-- Question 1 -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/question1Layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="#099486"
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_marginTop="24dp">
+
+<TextView
+    android:id="@+id/question1"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:text="What is this app about?"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    android:padding="8dp"
+    android:textColor="#FFFFFF"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/answer1"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:text="This app helps you find real estate properties easily"
+    android:textSize="16sp"
+    android:padding="8dp"
+    android:textColor="#FFFFFF"
+    android:visibility="gone"
+    app:layout_constraintTop_toBottomOf="@id/question1"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Question 2 -->
+<androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/question2Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:background="#099486"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/question2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="How can I contact support?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/answer2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="You can contact support via email at support@example.com."
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/question2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/question3Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="#099486"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/question3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="How do I search for properties?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/answer3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Use the search bar to filter properties by location, price, and type."
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/question3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/question4Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="#099486"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/question4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Can I schedule a property visit?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/answer4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Yes, you can schedule visits by contacting the property agent directly."
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/question4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/question5Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="#099486"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/question5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="How do I save my favorite properties?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/answer5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Tap the heart icon on a property to add it to your favorites list."
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/question5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/question6Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="#099486"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/question6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Is there a mortgage calculator?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/answer6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Yes, you can find it under the Tools section in the app."
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/question6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/question7Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="#099486"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/question7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Are there rental properties?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/answer7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Yes, you can filter listings by Rental or Sale from the main search screen."
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/question7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/question8Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="#099486"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/question8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Can I list my own property?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/answer8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Yes, you can list a property by registering as a seller in the app."
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/question8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/question9Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="#099486"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/question9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Is my information safe?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/answer9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Yes, we use secure encryption methods to protect your data."
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/question9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <!-- Contact Us Section -->
+        <TextView
+        android:id="@+id/contactUsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contact Us"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_marginTop="32dp"
+        android:gravity="center" />
+
+        <TextView
+        android:id="@+id/contactUsDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="If you didn't find your answer, feel free to reach us:\nEmail: support@HomeNest.com\nPhone: +123456789"
+        android:textSize="14dp"
+        android:textColor="#444444"
+        android:layout_marginTop="8dp"
+        android:gravity="center" />
+
+    </LinearLayout>
+
+
+</ScrollView>
