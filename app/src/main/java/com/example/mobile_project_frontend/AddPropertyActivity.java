@@ -327,7 +327,6 @@ public class AddPropertyActivity extends AppCompatActivity {
 
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
                 response -> {
-                    // Handle success
                     try {
                         JSONObject jsonResponse = new JSONObject(new String(response.data));
                         if (jsonResponse.getBoolean("success")) {
@@ -360,7 +359,7 @@ public class AddPropertyActivity extends AppCompatActivity {
             protected Map<String, DataPart> getByteData() {
                 Map<String, DataPart> params = new HashMap<>();
                 byte[] imageData = getFileDataFromUri(imageUri);
-                String imageName = "uploaded_image.png";  // You can get the file name from the URI if needed
+                String imageName = "uploaded_image.png";
                 params.put("image", new DataPart(imageName, imageData));
                 return params;
             }
