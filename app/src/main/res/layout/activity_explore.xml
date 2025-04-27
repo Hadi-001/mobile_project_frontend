@@ -14,25 +14,27 @@
         android:layout_height="65dp"
         android:background="#F2E5E5"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp">
+        android:paddingLeft="10sp"
+        android:paddingTop="10sp">
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="48dp"
+            android:layout_width="10dp"
             android:layout_height="48dp"
+            android:layout_weight="1"
             android:src="@drawable/logo_cropped" />
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="wrap_content"
+            android:layout_width="153dp"
             android:layout_height="wrap_content"
-            android:text="Explore"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginStart="10dp"
-            android:textColor="#000000" />
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <!-- Main Scrollable Area -->
