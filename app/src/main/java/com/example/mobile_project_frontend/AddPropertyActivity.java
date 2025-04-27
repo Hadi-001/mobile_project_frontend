@@ -49,9 +49,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.text.SimpleDateFormat;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 public class AddPropertyActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
