@@ -1,40 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:id="@+id/main">
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#F2E5E5"
+        android:orientation="horizontal"
+        android:paddingLeft="10sp"
+        android:paddingTop="10sp">
 
-        <EditText android:id="@+id/etPrice"
-            android:hint="Price" android:inputType="numberDecimal"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="10dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:src="@drawable/logo_cropped" />
 
-        <EditText android:id="@+id/etBeds"
-            android:hint="Beds" android:inputType="number"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="153dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
-        <EditText android:id="@+id/etBaths"
-            android:hint="Baths" android:inputType="number"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-        <EditText android:id="@+id/etCity"
-            android:hint="City"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-        <EditText android:id="@+id/etStreet"
-            android:hint="Street"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-        <EditText android:id="@+id/etDescription"
-            android:hint="Description"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-        <Button android:id="@+id/btnSaveEdit"
-            android:text="Save" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_marginTop="16dp"/>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:layout_weight="1" />
     </LinearLayout>
-</ScrollView>
+
+    <!-- now the form, scrollable if needed -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:padding="16dp"
+        android:overScrollMode="ifContentScrolls">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp">
+
+            <EditText
+                android:id="@+id/etPrice"
+                android:hint="Price"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/etBeds"
+                android:hint="Beds"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/etBaths"
+                android:hint="Baths"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/etCity"
+                android:hint="City"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/etStreet"
+                android:hint="Street"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/etDescription"
+                android:hint="Description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btnSaveEdit"
+                android:text="Save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

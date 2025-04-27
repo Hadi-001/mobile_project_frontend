@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide(); // to hide the action bar
         }
-
+        navView = findViewById(R.id.nav_view);
 
         apartmentImage = findViewById(R.id.apartment_category);
         villaImage = findViewById(R.id.villa_category);
@@ -51,7 +51,6 @@ public class HomeActivity extends AppCompatActivity {
 
         user = new User(this);
 
-        navView = findViewById(R.id.nav_view);
         navView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navigation_home) {
                 // Already in HomeActivity, do nothing
@@ -146,7 +145,7 @@ public class HomeActivity extends AppCompatActivity {
                                         estate.getString("city"),
                                         estate.getInt("beds"),
                                         estate.getInt("baths"),
-                                        "$" + estate.getDouble("price"),
+                                        "$" + (int)estate.getDouble("price"),
                                         estate.getInt("is_liked") == 1
                                 ));
                             }
@@ -190,7 +189,7 @@ public class HomeActivity extends AppCompatActivity {
                                         estate.getString("city"),
                                         estate.getInt("beds"),
                                         estate.getInt("baths"),
-                                        "$" + estate.getDouble("price"),
+                                        "$" + (int)estate.getDouble("price"),
                                         estate.getInt("is_liked") == 1
                                 ));
                             }

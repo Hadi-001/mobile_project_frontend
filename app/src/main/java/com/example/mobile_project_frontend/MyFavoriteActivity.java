@@ -3,6 +3,7 @@ package com.example.mobile_project_frontend;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,30 +35,68 @@ public class MyFavoriteActivity extends AppCompatActivity {
     private User user;
     private TextView emptyView;
     private BottomNavigationView navView;
-
+    ImageView apartmentImage, houseImage, penthouseImage, villaImage,mansionImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_favorite);
 
+
+
         navView = findViewById(R.id.nav_view);
-        navView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.navigation_home) {
-                startActivity(new Intent(this, HomeActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.navigation_explore) {
-                startActivity(new Intent(this, ExploreActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.navigation_fav) {
-                return true;
-            } else if (item.getItemId() == R.id.navigation_profile) {
-                if(user.getUserId() == -1)startActivity(new Intent(this,RestrictActivity.class));
-                startActivity(new Intent(this, ProfileActivity.class));
-                return true;
+
+        apartmentImage = findViewById(R.id.apartment_category);
+        villaImage = findViewById(R.id.villa_category);
+        penthouseImage = findViewById(R.id.penthouse_category);
+        houseImage = findViewById(R.id.house_category);
+        mansionImage = findViewById(R.id.mansion_category);
+
+        apartmentImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to navigate to ExploreActivity with the category as extra
+                Intent intent = new Intent(MyFavoriteActivity.this, ExploreActivity.class);
+                intent.putExtra("category", "Apartment");
+                startActivity(intent);
             }
-            return false;
         });
 
+        villaImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyFavoriteActivity.this, ExploreActivity.class);
+                intent.putExtra("category", "Villa");
+                startActivity(intent);
+            }
+        });
+
+        penthouseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyFavoriteActivity.this, ExploreActivity.class);
+                intent.putExtra("category", "Penthouse");
+                startActivity(intent);
+            }
+        });
+
+        houseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyFavoriteActivity.this, ExploreActivity.class);
+                intent.putExtra("category", "House");
+                startActivity(intent);
+            }
+        });
+
+        mansionImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyFavoriteActivity.this, ExploreActivity.class);
+                intent.putExtra("category", "Mansion");
+                startActivity(intent);
+            }
+        });
+        setupBottomNavigation();
         // Initialize views
         favoritesRecyclerView = findViewById(R.id.MyFavoritesRecycleView);
         emptyView = findViewById(R.id.emptyView);
@@ -156,7 +195,27 @@ public class MyFavoriteActivity extends AppCompatActivity {
 
         requestQueue.add(jsonObjectRequest);
     }
-
+    private void setupBottomNavigation() {
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_fav);
+        navView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.navigation_home) {
+                startActivity(new Intent(this, HomeActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.navigation_explore) {
+                startActivity(new Intent(this, ExploreActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.navigation_profile) {
+                startActivity(new Intent(this, ProfileActivity.class));
+                finish();
+                return true;
+            }
+            return id == R.id.navigation_fav;
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();

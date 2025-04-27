@@ -14,8 +14,8 @@
         android:layout_height="65dp"
         android:background="#F2E5E5"
         android:orientation="horizontal"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp">
+        android:paddingLeft="10sp"
+        android:paddingTop="10sp">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -26,7 +26,7 @@
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="0dp"
+            android:layout_width="153dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
@@ -38,139 +38,125 @@
     </LinearLayout>
 
     <!-- Main Scrollable Area -->
-
-    <LinearLayout
-        android:id="@+id/containerLayout"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="604dp"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <!-- 🔥 FILTERS START 🔥 -->
-
-        <!-- Category Buttons Row 1 -->
         <LinearLayout
+            android:id="@+id/containerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <Button
-                android:id="@+id/filter_apartment"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
+            <!-- 🔥 FILTERS START 🔥 -->
+
+            <!-- Category Buttons Row 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="Apartment" />
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="8dp">
 
-            <Button
-                android:id="@+id/filter_villa"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/filter_apartment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Apartment"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_margin="4dp" />
+
+                <Button
+                    android:id="@+id/filter_villa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Villa"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_margin="4dp" />
+            </LinearLayout>
+
+            <!-- Category Buttons Row 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="Villa" />
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="8dp">
 
-        <!-- Category Buttons Row 2 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+                <Button
+                    android:id="@+id/filter_penthouse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Penthouse"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_margin="4dp" />
 
-            <Button
-                android:id="@+id/filter_penthouse"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="Penthouse" />
+                <Button
+                    android:id="@+id/filter_house"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="House"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_margin="4dp" />
 
-            <Button
-                android:id="@+id/filter_house"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="House" />
+                <Button
+                    android:id="@+id/filter_mansion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mansion"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_margin="4dp" />
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/filter_mansion"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="Mansion" />
-
-
-        </LinearLayout>
-
-        <!-- Dropdown Filters -->
-
-        <!-- Apply Filters Button -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            <!-- Dropdown Filters -->
             <Spinner
                 android:id="@+id/city_spinner"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:entries="@array/city_list"
-                android:prompt="@string/select_city" />
+                android:prompt="@string/select_city"
+                android:entries="@array/city_list" />
 
             <Spinner
                 android:id="@+id/price_spinner"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:entries="@array/price_list"
-                android:prompt="@string/select_price" />
+                android:prompt="@string/select_price"
+                android:entries="@array/price_list" />
 
             <Spinner
                 android:id="@+id/beds_spinner"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:entries="@array/beds_list"
-                android:prompt="@string/select_beds" />
+                android:prompt="@string/select_beds"
+                android:entries="@array/beds_list" />
 
             <Spinner
                 android:id="@+id/baths_spinner"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:entries="@array/baths_list"
-                android:prompt="@string/select_baths" />
+                android:prompt="@string/select_baths"
+                android:entries="@array/baths_list" />
+
+            <!-- Apply Filters Button -->
+            <Button
+                android:id="@+id/btn_apply_filters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Apply Filters"
+                android:enabled="false"
+                android:alpha="0.1"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Property cards are dynamically added below this line -->
+
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_apply_filters"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:alpha="0.1"
-            android:enabled="false"
-            android:text="Apply Filters" />
-
-        <!-- RecyclerView for Property Cards -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/propertyRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="600dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:scrollbars="vertical" />
-
-
-    </LinearLayout>
-
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -179,5 +165,6 @@
         android:layout_height="60dp"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled" />
+        app:labelVisibilityMode="unlabeled" />
+
 </LinearLayout>
