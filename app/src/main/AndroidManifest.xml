@@ -24,6 +24,9 @@
             android:exported="false"
             android:label="@string/title_activity_home" />
         <activity
+            android:name=".PropertyDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.Mobile_project_frontend.NoActionBar">
