@@ -17,7 +17,7 @@
         app:navigationIconTint="?attr/colorOnSurface"
         app:title="Profile"
         app:titleTextColor="?attr/colorOnSurface"
-        android:elevation="4dp"/>
+        android:elevation="10dp"/>
 
     <!-- Scrollable content -->
     <androidx.core.widget.NestedScrollView
@@ -40,23 +40,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                app:background="@drawable/fake_shadow"
+                app:cardUseCompatPadding="true"
+                app:cardElevation="8dp">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#20E4CE"
+                    android:orientation="vertical"
                     android:padding="16dp">
 
                     <!-- Avatar (static or replace with real) -->
                     <ImageView
                         android:id="@+id/tvAvatar"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="237dp"
+                        android:layout_height="222dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/bg_avatar"
                         android:contentDescription="Avatar"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/account" />
 
                     <!-- Full Name -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -64,18 +67,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        app:boxBackgroundMode="filled"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
+                        android:hint="Full Name"
                         app:boxBackgroundColor="@android:color/white"
-                        android:hint="Full Name">
+                        app:boxBackgroundMode="filled"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etName"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Email -->
@@ -84,19 +87,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        app:boxBackgroundMode="filled"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
+                        android:hint="Email"
                         app:boxBackgroundColor="@android:color/white"
-                        android:hint="Email">
+                        app:boxBackgroundMode="filled"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textEmailAddress"/>
+                            android:inputType="textEmailAddress" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Phone Number -->
@@ -105,20 +108,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        app:boxBackgroundMode="filled"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
-                        app:boxBackgroundColor="@android:color/white"
                         android:hint="Phone Number"
+                        app:boxBackgroundColor="@android:color/white"
+                        app:boxBackgroundMode="filled"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp"
                         app:prefixText="🇱🇧 +961 ">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPhone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="phone"/>
+                            android:inputType="phone" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Password -->
@@ -127,44 +130,46 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        app:boxBackgroundMode="filled"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
+                        android:hint="Password"
                         app:boxBackgroundColor="@android:color/white"
-                        android:hint="Password">
+                        app:boxBackgroundMode="filled"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textPassword"/>
+                            android:inputType="textPassword" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Save Button -->
+
+            <!-- Disclaimer -->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSave"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Save"
-                app:cornerRadius="8dp"
-                app:backgroundTint="?attr/colorPrimary"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/black"
+                app:cornerRadius="80dp" />
 
-            <!-- Disclaimer -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="32dp"
-                android:text="We won’t share your private email with other users."
-                android:textSize="12sp"
+                android:text="Your email stays private and secure"
+                android:textSize="20dp"
                 android:textColor="?attr/colorOnSurface"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
