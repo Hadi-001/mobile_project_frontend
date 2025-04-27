@@ -1,6 +1,8 @@
 package com.example.mobile_project_frontend;
 
-public class HorizontalItem {
+import java.io.Serializable;
+
+public class HorizontalItem implements Serializable {
     private int itemId;
     private String imageURL;
     private String title;

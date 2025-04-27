@@ -8,14 +8,14 @@ public class PropertyItem implements Serializable {
     private int estateId, beds, baths, views, ownerId;
     private String type, city, street, imageLink, description;
     private double price, area;
-    private Date dateBuild, postDate;
+    private String dateBuild, postDate;
     private boolean isFavorite;
 
 
     public PropertyItem(int estateId, String type, int beds, int baths,
                         double price, String city, String street, String imageLink,
-                        int views, double area, String description, Date dateBuild,
-                        int ownerId, Date postDate) {
+                        int views, double area, String description, String dateBuild,
+                        int ownerId, String postDate, boolean isFavorite) {
         this.estateId = estateId;
         this.type = type;
         this.beds = beds;
@@ -23,7 +23,7 @@ public class PropertyItem implements Serializable {
         this.price = price;
         this.city = city;
         this.imageLink = imageLink;
-        this.isFavorite = false;
+        this.isFavorite = isFavorite;
         this.street = street;
         this.views = views;
         this.area = area;
@@ -128,19 +128,19 @@ public class PropertyItem implements Serializable {
         this.area = area;
     }
 
-    public Date getDateBuild() {
+    public String getDateBuild() {
         return dateBuild;
     }
 
-    public void setDateBuild(Date dateBuild) {
+    public void setDateBuild(String dateBuild) {
         this.dateBuild = dateBuild;
     }
 
-    public Date getPostDate() {
+    public String getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(Date postDate) {
+    public void setPostDate(String postDate) {
         this.postDate = postDate;
     }
 
