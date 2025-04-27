@@ -422,7 +422,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="If you didn't find your answer, feel free to reach us:\nEmail: support@HomeNest.com\nPhone: +123456789"
-        android:textSize="16sp"
+        android:textSize="14dp"
         android:textColor="#444444"
         android:layout_marginTop="8dp"
         android:gravity="center" />
