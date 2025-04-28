@@ -50,7 +50,6 @@ public class HomeActivity extends AppCompatActivity {
         mansionImage = findViewById(R.id.mansion_category);
 
         user = new User(this);
-        user.setUserId(4);
 
         navView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navigation_home) {
@@ -60,10 +59,12 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ExploreActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.navigation_fav) {
-                startActivity(new Intent(this, MyFavoriteActivity.class));
+                if(user.getUserId() == -1)startActivity(new Intent(this,RestrictActivity.class));
+                startActivity(new Intent(this,MyFavoriteActivity.class));
                 return true;
               } else if (item.getItemId() == R.id.navigation_profile) {
-                startActivity(new Intent(this, AddPropertyActivity.class));
+                if(user.getUserId() == -1)startActivity(new Intent(this,RestrictActivity.class));
+                startActivity(new Intent(this, ProfileActivity.class));
                 return true;
             }
             return false;
