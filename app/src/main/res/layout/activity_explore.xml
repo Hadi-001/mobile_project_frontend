@@ -44,73 +44,75 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/containerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
 
-            <!-- 🔥 FILTERS START 🔥 -->
+            <!-- Property Type Filters -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Property Types"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
 
-            <!-- Category Buttons Row 1 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal"
                 android:layout_marginBottom="8dp">
 
-                <Button
-                    android:id="@+id/filter_apartment"
-                    android:layout_width="wrap_content"
+                <CheckBox
+                    android:id="@+id/check_apartment"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Apartment"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_margin="4dp" />
+                    android:buttonTint="@color/teal_700"/>
 
-                <Button
-                    android:id="@+id/filter_villa"
-                    android:layout_width="wrap_content"
+                <CheckBox
+                    android:id="@+id/check_villa"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Villa"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_margin="4dp" />
+                    android:buttonTint="@color/teal_700"/>
             </LinearLayout>
 
-            <!-- Category Buttons Row 2 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="16dp">
 
-                <Button
-                    android:id="@+id/filter_penthouse"
-                    android:layout_width="wrap_content"
+                <CheckBox
+                    android:id="@+id/check_penthouse"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Penthouse"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_margin="4dp" />
+                    android:buttonTint="@color/teal_700"/>
 
-                <Button
-                    android:id="@+id/filter_house"
-                    android:layout_width="wrap_content"
+                <CheckBox
+                    android:id="@+id/check_house"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="House"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_margin="4dp" />
+                    android:buttonTint="@color/teal_700"/>
 
-                <Button
-                    android:id="@+id/filter_mansion"
-                    android:layout_width="wrap_content"
+                <CheckBox
+                    android:id="@+id/check_mansion"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Mansion"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_margin="4dp" />
+                    android:buttonTint="@color/teal_700"/>
             </LinearLayout>
 
-            <!-- Dropdown Filters -->
+            <!-- Other Filters -->
             <Spinner
                 android:id="@+id/city_spinner"
                 android:layout_width="match_parent"
@@ -139,7 +141,7 @@
                 android:id="@+id/baths_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:prompt="@string/select_baths"
                 android:entries="@array/baths_list" />
 
@@ -149,11 +151,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Apply Filters"
-                android:enabled="false"
-                android:alpha="0.1"
+                android:backgroundTint="@color/teal_700"
+                android:textColor="@color/white"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Property cards are dynamically added below this line -->
+            <!-- Empty View -->
+            <TextView
+                android:id="@+id/emptyView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No properties found"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:padding="16dp"
+                android:visibility="gone" />
+
+            <!-- RecyclerView for property listings -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingBottom="60dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
