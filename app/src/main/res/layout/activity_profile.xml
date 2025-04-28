@@ -37,12 +37,12 @@
             <!-- Profile Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="539dp"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="16dp"
                 app:background="@drawable/fake_shadow"
-                app:cardUseCompatPadding="true"
-                app:cardElevation="8dp">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -161,6 +161,9 @@
                 app:cornerRadius="80dp" />
 
             <!-- My Properties Button -->
+
+            <!-- Disclaimer -->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMyProperties"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -169,21 +172,46 @@
                 android:layout_marginTop="12dp"
                 android:text="My Properties"
                 android:textColor="@android:color/black"
+                app:cornerRadius="80dp"
                 app:strokeColor="@android:color/black"
-                app:strokeWidth="2dp"
-                app:cornerRadius="80dp" />
+                app:strokeWidth="2dp" />
 
-            <!-- Disclaimer -->
-            <TextView
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/helpBtn"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
-                android:text="Your email stays private and secure"
-                android:textSize="20sp"
-                android:textColor="?attr/colorOnSurface" />
+                android:layout_marginTop="12dp"
+                android:text="Support"
+                android:textColor="@android:color/black"
+                app:cornerRadius="80dp"
+                app:strokeColor="@android:color/black"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/logoutBtn"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Log out"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/avatarRed"
+                app:cornerRadius="80dp" />
 
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="?android:attr/windowBackground"
+        app:labelVisibilityMode="unlabeled"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_nav_menu">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

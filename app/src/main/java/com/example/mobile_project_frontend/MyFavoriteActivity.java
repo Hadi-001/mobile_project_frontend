@@ -45,57 +45,9 @@ public class MyFavoriteActivity extends AppCompatActivity {
 
         navView = findViewById(R.id.nav_view);
 
-        apartmentImage = findViewById(R.id.apartment_category);
-        villaImage = findViewById(R.id.villa_category);
-        penthouseImage = findViewById(R.id.penthouse_category);
-        houseImage = findViewById(R.id.house_category);
-        mansionImage = findViewById(R.id.mansion_category);
 
-        apartmentImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create an Intent to navigate to ExploreActivity with the category as extra
-                Intent intent = new Intent(MyFavoriteActivity.this, ExploreActivity.class);
-                intent.putExtra("category", "Apartment");
-                startActivity(intent);
-            }
-        });
 
-        villaImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyFavoriteActivity.this, ExploreActivity.class);
-                intent.putExtra("category", "Villa");
-                startActivity(intent);
-            }
-        });
 
-        penthouseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyFavoriteActivity.this, ExploreActivity.class);
-                intent.putExtra("category", "Penthouse");
-                startActivity(intent);
-            }
-        });
-
-        houseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyFavoriteActivity.this, ExploreActivity.class);
-                intent.putExtra("category", "House");
-                startActivity(intent);
-            }
-        });
-
-        mansionImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyFavoriteActivity.this, ExploreActivity.class);
-                intent.putExtra("category", "Mansion");
-                startActivity(intent);
-            }
-        });
         setupBottomNavigation();
         // Initialize views
         favoritesRecyclerView = findViewById(R.id.MyFavoritesRecycleView);

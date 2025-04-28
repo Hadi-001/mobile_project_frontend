@@ -29,6 +29,7 @@ import java.util.Map;
 public class MyPropertiesActivity extends AppCompatActivity {
 
     private static final int REQ_EDIT = 101;
+    User user;
 
     private BottomNavigationView navView;
     ImageView apartmentImage, houseImage, penthouseImage, villaImage,mansionImage;
@@ -42,62 +43,8 @@ public class MyPropertiesActivity extends AppCompatActivity {
 
         navView = findViewById(R.id.nav_view);
 
-        apartmentImage = findViewById(R.id.apartment_category);
-        villaImage = findViewById(R.id.villa_category);
-        penthouseImage = findViewById(R.id.penthouse_category);
-        houseImage = findViewById(R.id.house_category);
-        mansionImage = findViewById(R.id.mansion_category);
+        user = new User(this);
 
-        User user = new User(this);
-
-
-
-
-        apartmentImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create an Intent to navigate to ExploreActivity with the category as extra
-                Intent intent = new Intent(MyPropertiesActivity.this, ExploreActivity.class);
-                intent.putExtra("category", "Apartment");
-                startActivity(intent);
-            }
-        });
-
-        villaImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyPropertiesActivity.this, ExploreActivity.class);
-                intent.putExtra("category", "Villa");
-                startActivity(intent);
-            }
-        });
-
-        penthouseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyPropertiesActivity.this, ExploreActivity.class);
-                intent.putExtra("category", "Penthouse");
-                startActivity(intent);
-            }
-        });
-
-        houseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyPropertiesActivity.this, ExploreActivity.class);
-                intent.putExtra("category", "House");
-                startActivity(intent);
-            }
-        });
-
-        mansionImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyPropertiesActivity.this, ExploreActivity.class);
-                intent.putExtra("category", "Mansion");
-                startActivity(intent);
-            }
-        });
         setupBottomNavigation();
 
 
@@ -181,11 +128,17 @@ public class MyPropertiesActivity extends AppCompatActivity {
                 finish();
                 return true;
             } else if (id == R.id.navigation_fav) {
-                startActivity(new Intent(this, MyFavoriteActivity.class));
+                if(user.getUserId() == -1) startActivity(new Intent(this,RestrictActivity.class));
+                startActivity(new Intent(this,MyFavoriteActivity.class));
+                finish();
+                return true;
+            }else if(id == R.id.navigation_profile){
+                if(user.getUserId() == -1) startActivity(new Intent(this,RestrictActivity.class));
+                startActivity(new Intent(this,MyFavoriteActivity.class));
                 finish();
                 return true;
             }
-            return id == R.id.navigation_profile;
+            return false;
         });
     }
     @Override protected void onActivityResult(int r,int c,Intent d){

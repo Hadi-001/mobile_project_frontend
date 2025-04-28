@@ -1,7 +1,9 @@
 package com.example.mobile_project_frontend;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -10,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -19,7 +22,8 @@ import java.util.Map;
 public class ProfileActivity extends AppCompatActivity {
 
     private TextInputEditText etName, etAbout, etPhone, etEmail;
-    private MaterialButton btnSave, btnMyProperties;
+    private MaterialButton btnSave, btnMyProperties, helpBtn, logoutBtn;
+    private BottomNavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +35,35 @@ public class ProfileActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
         btnSave = findViewById(R.id.btnSave);
+        helpBtn = findViewById(R.id.helpBtn);
+        logoutBtn = findViewById(R.id.logoutBtn);
         btnMyProperties = findViewById(R.id.btnMyProperties);
+
+        helpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ProfileActivity.this, HelpSupport.class);
+                startActivity(i);
+            }
+        });
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ProfileActivity.this,LoginActivity.class);
+                User user = new User(ProfileActivity.this);
+                user.logout();
+                startActivity(i);
+            }
+        });
 
         btnSave.setOnClickListener(v -> saveProfile());
 
         btnMyProperties.setOnClickListener(v ->
                 startActivity(new android.content.Intent(
                         ProfileActivity.this, MyPropertiesActivity.class)));
+
+        setupBottomNavigation();
     }
 
     /* -------------------------------------------------- */
@@ -84,6 +110,27 @@ public class ProfileActivity extends AppCompatActivity {
                 if (!email.isEmpty()) p.put("email", email);
                 return p;
             }
+        });
+    }
+    private void setupBottomNavigation() {
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_fav);
+        navView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.navigation_home) {
+                startActivity(new Intent(this, HomeActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.navigation_explore) {
+                startActivity(new Intent(this, ExploreActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.navigation_profile) {
+                startActivity(new Intent(this, ProfileActivity.class));
+                finish();
+                return true;
+            }
+            return id == R.id.navigation_fav;
         });
     }
 }
