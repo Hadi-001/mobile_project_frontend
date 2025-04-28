@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/white"
-        app:navigationIcon="@android:drawable/ic_menu_close_clear_cancel"
         app:navigationIconTint="?attr/colorOnSurface"
         app:title="Profile"
         app:titleTextColor="?attr/colorOnSurface"
@@ -52,16 +51,17 @@
                     android:padding="16dp">
 
                     <!-- Avatar -->
+
+                    <!-- Full Name -->
                     <ImageView
                         android:id="@+id/tvAvatar"
                         android:layout_width="237dp"
-                        android:layout_height="211dp"
+                        android:layout_height="158dp"
                         android:layout_gravity="center"
                         android:contentDescription="Avatar"
                         android:scaleType="centerCrop"
                         android:src="@drawable/account" />
 
-                    <!-- Full Name -->
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                         android:layout_width="match_parent"
@@ -73,8 +73,15 @@
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxCornerRadiusBottomStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusTopStart="12dp"/>
+                        app:boxCornerRadiusTopStart="12dp">
 
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etFirstName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Last Name -->
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                         android:layout_width="match_parent"
@@ -89,7 +96,7 @@
                         app:boxCornerRadiusTopStart="12dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etFirstName"
+                            android:id="@+id/etLastName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>

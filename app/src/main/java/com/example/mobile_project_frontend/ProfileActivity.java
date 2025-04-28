@@ -3,6 +3,7 @@ package com.example.mobile_project_frontend;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextInputEditText etName, etPhone, etEmail, etPass;
+    private TextInputEditText etFirstName, etLastName, etPhone, etEmail, etPass;
     private MaterialButton btnSave, btnMyProperties, helpBtn, logoutBtn;
     private BottomNavigationView navView;
 
@@ -31,7 +32,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        etName  = findViewById(R.id.etFirstName);
+        etFirstName  = findViewById(R.id.etFirstName);
+        etLastName = findViewById(R.id.etLastName);
         etPass = findViewById(R.id.etPassword);
         etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
@@ -77,12 +79,13 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        String name  = etName .getText().toString().trim();
+        String firstname  = etFirstName .getText().toString().trim();
+        String lastname  = etLastName .getText().toString().trim();
         String pass = etPass.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
 
-        if (TextUtils.isEmpty(name) && TextUtils.isEmpty(pass) &&
+        if (TextUtils.isEmpty(firstname) && TextUtils.isEmpty(lastname) && TextUtils.isEmpty(pass) &&
                 TextUtils.isEmpty(phone) && TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Nothing to update", Toast.LENGTH_SHORT).show();
             return;
@@ -94,14 +97,15 @@ public class ProfileActivity extends AppCompatActivity {
                 Request.Method.POST, url,
                 r -> {
                     Toast.makeText(this, "Profile saved", Toast.LENGTH_SHORT).show();
-
+                    Log.d("test sql queryyyyyy" ,r.toString());
                 },
                 e -> Toast.makeText(this, "Save failed", Toast.LENGTH_SHORT).show()) {
 
             @Override protected Map<String,String> getParams() {
                 Map<String,String> p = new HashMap<>();
                 p.put("user_id", String.valueOf(userId));
-                if (!name .isEmpty()) p.put("name" , name );
+                if (!firstname .isEmpty()) p.put("firstname" , firstname );
+                if (!lastname .isEmpty()) p.put("lastname" , lastname );
                 if (!pass.isEmpty()) p.put("password", pass);
                 if (!phone.isEmpty()) p.put("phone", phone);
                 if (!email.isEmpty()) p.put("email", email);
@@ -150,10 +154,12 @@ public class ProfileActivity extends AppCompatActivity {
                         // Assuming your backend returns something like:
                         // { "first_name": "John", "last_name": "Doe", "email": "john@example.com", "phone_number": "123456789" }
 
-                        String fullName = obj.getString("first_name") + " " + obj.getString("last_name");
+                        String firstName = obj.getString("first_name");
+                        String lastName = obj.getString("last_name");
                         String phone    = obj.getString("phone_number");
                         String email    = obj.getString("email");
-                        etName.setText(fullName);
+                        etFirstName.setText(firstName);
+                        etLastName.setText(lastName);
                         etPhone.setText(phone);
                         etEmail.setText(email);
                     } catch (Exception e) {

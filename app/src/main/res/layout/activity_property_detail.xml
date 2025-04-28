@@ -84,17 +84,7 @@
                     android:layout_margin="12dp"
                     app:cardBackgroundColor="#E6FFFFFF"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="2dp">
-
-                    <ImageButton
-                        android:id="@+id/favoriteButton2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:padding="6dp"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/ic_heart_filled" />
-                </com.google.android.material.card.MaterialCardView>
+                    app:cardElevation="2dp"/>
 
             </FrameLayout>
 
