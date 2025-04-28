@@ -31,10 +31,10 @@ public class PropertyDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_property_detail);
 
-        MaterialToolbar toolbar = findViewById(R.id.topBar);
-        toolbar.setNavigationOnClickListener(v -> {
-            onBackPressed();
-        });
+//        MaterialToolbar toolbar = findViewById(R.id.topBar);
+//        toolbar.setNavigationOnClickListener(v -> {
+//            onBackPressed();
+//        });
 
         // Get the property ID from intent
         propertyId = getIntent().getIntExtra("estate_id", -1);

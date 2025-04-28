@@ -55,7 +55,7 @@
                     <ImageView
                         android:id="@+id/tvAvatar"
                         android:layout_width="237dp"
-                        android:layout_height="222dp"
+                        android:layout_height="211dp"
                         android:layout_gravity="center"
                         android:contentDescription="Avatar"
                         android:scaleType="centerCrop"
@@ -67,7 +67,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:hint="Full Name"
+                        android:hint="First Name"
+                        app:boxBackgroundColor="@android:color/white"
+                        app:boxBackgroundMode="filled"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Last Name"
                         app:boxBackgroundColor="@android:color/white"
                         app:boxBackgroundMode="filled"
                         app:boxCornerRadiusBottomEnd="12dp"
@@ -76,7 +89,7 @@
                         app:boxCornerRadiusTopStart="12dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etName"
+                            android:id="@+id/etFirstName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>

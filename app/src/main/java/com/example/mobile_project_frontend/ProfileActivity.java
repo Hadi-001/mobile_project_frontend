@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +14,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        etName  = findViewById(R.id.etName);
+        etName  = findViewById(R.id.etFirstName);
         etAbout = findViewById(R.id.etPassword);
         etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
@@ -64,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
                         ProfileActivity.this, MyPropertiesActivity.class)));
 
         setupBottomNavigation();
+        loadUserProfile();
     }
 
     /* -------------------------------------------------- */
@@ -93,11 +95,11 @@ public class ProfileActivity extends AppCompatActivity {
                 r -> {
                     Toast.makeText(this, "Profile saved", Toast.LENGTH_SHORT).show();
 
-                    /* 🔽  Clear inputs after success */
-                    etName .setText("");
-                    etAbout.setText("");
-                    etPhone.setText("");
-                    etEmail.setText("");
+//                    /* 🔽  Clear inputs after success */
+//                    etName .setText("");
+//                    etAbout.setText("");
+//                    etPhone.setText("");
+//                    etEmail.setText("");
                 },
                 e -> Toast.makeText(this, "Save failed", Toast.LENGTH_SHORT).show()) {
 
@@ -133,4 +135,42 @@ public class ProfileActivity extends AppCompatActivity {
             return id == R.id.navigation_fav;
         });
     }
+
+    private void loadUserProfile() {
+        User user = new User(this);
+        int userId = user.getUserId();
+        if (userId == -1) {
+            Toast.makeText(this, "Not logged in", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String url = "http://10.0.2.2/mobile_project_backend/get_user_profile.php?user_id=" + userId;
+
+        Volley.newRequestQueue(this).add(new StringRequest(
+                Request.Method.GET, url,
+                response -> {
+                    try {
+                        JSONObject obj = new JSONObject(response);
+
+                        // Assuming your backend returns something like:
+                        // { "first_name": "John", "last_name": "Doe", "email": "john@example.com", "phone_number": "123456789" }
+
+                        String fullName = obj.getString("first_name") + " " + obj.getString("last_name");
+                        String phone    = obj.getString("phone_number");
+                        String email    = obj.getString("email");
+                        etName.setText(fullName);
+                        etPhone.setText(phone);
+                        etEmail.setText(email);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Failed to parse profile data", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                    Toast.makeText(this, "Failed to load profile", Toast.LENGTH_SHORT).show();
+                }
+        ));
+    }
+
 }
