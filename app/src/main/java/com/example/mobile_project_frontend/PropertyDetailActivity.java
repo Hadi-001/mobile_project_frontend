@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +30,11 @@ public class PropertyDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_property_detail);
+
+        MaterialToolbar toolbar = findViewById(R.id.topBar);
+        toolbar.setNavigationOnClickListener(v -> {
+            onBackPressed();
+        });
 
         // Get the property ID from intent
         propertyId = getIntent().getIntExtra("estate_id", -1);

@@ -161,8 +161,8 @@ public class MyFavoriteActivity extends AppCompatActivity {
                 finish();
                 return true;
             } else if (id == R.id.navigation_profile) {
-                startActivity(new Intent(this, ProfileActivity.class));
-                finish();
+                if( new User(MyFavoriteActivity.this).getUserId() < 1)startActivity(new Intent(this,RestrictActivity.class));
+                else startActivity(new Intent(this,ProfileActivity.class));
                 return true;
             }
             return id == R.id.navigation_fav;

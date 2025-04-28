@@ -59,12 +59,12 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ExploreActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.navigation_fav) {
-                if(user.getUserId() == -1)startActivity(new Intent(this,RestrictActivity.class));
-                startActivity(new Intent(this,MyFavoriteActivity.class));
+                if(user.getUserId() < 1)startActivity(new Intent(this,RestrictActivity.class));
+                else startActivity(new Intent(this,MyFavoriteActivity.class));
                 return true;
               } else if (item.getItemId() == R.id.navigation_profile) {
-                if(user.getUserId() == -1)startActivity(new Intent(this,RestrictActivity.class));
-                startActivity(new Intent(this, ProfileActivity.class));
+                if(user.getUserId() < 1)startActivity(new Intent(this,RestrictActivity.class));
+                else startActivity(new Intent(this, ProfileActivity.class));
                 return true;
             }
             return false;

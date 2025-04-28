@@ -172,12 +172,22 @@ public class ExploreActivity extends AppCompatActivity {
         navView.setSelectedItemId(R.id.navigation_explore);
         navView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.navigation_home) {
+            User user = new User(ExploreActivity.this);
+            if (item.getItemId() == R.id.navigation_home) {
                 startActivity(new Intent(this, HomeActivity.class));
-                finish();
+                return true;
+            } else if (item.getItemId() == R.id.navigation_explore) {
+                return true;
+            } else if (item.getItemId() == R.id.navigation_fav) {
+                if(user.getUserId() < 1)startActivity(new Intent(this,RestrictActivity.class));
+                else startActivity(new Intent(this,MyFavoriteActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.navigation_profile) {
+                if(user.getUserId() < 1)startActivity(new Intent(this,RestrictActivity.class));
+                else startActivity(new Intent(this, ProfileActivity.class));
                 return true;
             }
-            return id == R.id.navigation_explore;
+            return false;
         });
     }
 

@@ -17,6 +17,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -46,6 +47,16 @@ public class MyPropertiesActivity extends AppCompatActivity {
         user = new User(this);
 
         setupBottomNavigation();
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MyPropertiesActivity.this, AddPropertyActivity.class);
+                startActivityForResult(i,0);
+            }
+        });
 
 
         rv = findViewById(R.id.MyPropertiesRecycleView);

@@ -55,13 +55,16 @@
     <!-- ── Spinner data: CITY LIST ─────────────────────────────────────── -->
     <string-array name="city_list">
         <item>All Cities</item>
-        <item>Los Angeles</item>
-        <item>Miami</item>
-        <item>Dubai</item>
-        <item>Malibu</item>
-        <item>New York</item>
-        <item>Austin</item>
-        <item>Beverly Hills</item>
+        <item>Aley</item>
+        <item>Baalbek</item>
+        <item>Batroun</item>
+        <item>Beirut</item>
+        <item>Byblos</item>
+        <item>Jbeil</item>
+        <item>Sidon</item>
+        <item>Tripoli</item>
+        <item>Tyre</item>
+        <item>Zahle</item>
     </string-array>
 
     <!-- ── PRICE LIST (basic ranges) ───────────────────────────────────── -->

@@ -50,9 +50,9 @@ public class ProfileActivity extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ProfileActivity.this,LoginActivity.class);
                 User user = new User(ProfileActivity.this);
                 user.logout();
+                Intent i = new Intent(ProfileActivity.this,LoginActivity.class);
                 startActivity(i);
             }
         });
@@ -122,8 +122,8 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
                 return true;
             } else if (id == R.id.navigation_explore) {
-                startActivity(new Intent(this, ExploreActivity.class));
-                finish();
+                if( new User(ProfileActivity.this).getUserId() < 1)startActivity(new Intent(this,RestrictActivity.class));
+                else startActivity(new Intent(this,MyFavoriteActivity.class));
                 return true;
             } else if (id == R.id.navigation_profile) {
                 startActivity(new Intent(this, ProfileActivity.class));

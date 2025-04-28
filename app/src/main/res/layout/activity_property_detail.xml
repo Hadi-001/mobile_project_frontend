@@ -24,10 +24,10 @@
                 android:id="@+id/titleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:text="Property Details"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:layout_marginStart="16dp"/>
+                android:textSize="20sp" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
