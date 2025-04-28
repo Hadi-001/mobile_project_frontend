@@ -170,4 +170,9 @@ public class PropertyVerticalAdapter extends RecyclerView.Adapter<PropertyVertic
             favoriteButton.setClickable(true);
         }
     }
+    public void updateList(List<PropertyItem> newList) {
+        itemList.clear();
+        itemList.addAll(newList);
+        notifyDataSetChanged();
+    }
 }
