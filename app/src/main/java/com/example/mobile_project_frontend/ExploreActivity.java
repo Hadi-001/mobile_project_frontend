@@ -327,7 +327,7 @@ public class ExploreActivity extends AppCompatActivity {
             case 2: return price < 5000;
             case 3: return price < 10000;
             case 4: return price >= 10000;
-            default: return true; // case 0 or any other - show all
+            default: return true;
         }
     }
 

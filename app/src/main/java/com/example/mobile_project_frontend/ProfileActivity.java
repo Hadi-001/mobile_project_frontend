@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextInputEditText etName, etAbout, etPhone, etEmail;
+    private TextInputEditText etName, etPhone, etEmail, etPass;
     private MaterialButton btnSave, btnMyProperties, helpBtn, logoutBtn;
     private BottomNavigationView navView;
 
@@ -32,7 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         etName  = findViewById(R.id.etFirstName);
-        etAbout = findViewById(R.id.etPassword);
+        etPass = findViewById(R.id.etPassword);
         etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
         btnSave = findViewById(R.id.btnSave);
@@ -78,11 +78,11 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         String name  = etName .getText().toString().trim();
-        String about = etAbout.getText().toString().trim();
+        String pass = etPass.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
 
-        if (TextUtils.isEmpty(name) && TextUtils.isEmpty(about) &&
+        if (TextUtils.isEmpty(name) && TextUtils.isEmpty(pass) &&
                 TextUtils.isEmpty(phone) && TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Nothing to update", Toast.LENGTH_SHORT).show();
             return;
@@ -95,11 +95,6 @@ public class ProfileActivity extends AppCompatActivity {
                 r -> {
                     Toast.makeText(this, "Profile saved", Toast.LENGTH_SHORT).show();
 
-//                    /* 🔽  Clear inputs after success */
-//                    etName .setText("");
-//                    etAbout.setText("");
-//                    etPhone.setText("");
-//                    etEmail.setText("");
                 },
                 e -> Toast.makeText(this, "Save failed", Toast.LENGTH_SHORT).show()) {
 
@@ -107,7 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Map<String,String> p = new HashMap<>();
                 p.put("user_id", String.valueOf(userId));
                 if (!name .isEmpty()) p.put("name" , name );
-                if (!about.isEmpty()) p.put("about", about);
+                if (!pass.isEmpty()) p.put("password", pass);
                 if (!phone.isEmpty()) p.put("phone", phone);
                 if (!email.isEmpty()) p.put("email", email);
                 return p;
